@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/culactivity_stream/db" VERSION="20130308" COMMENT="XMLDB file for Moodle local/culactivity_stream"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+    <TABLES>
+        <TABLE NAME="culactivity_stream" COMMENT="This table saves notifications.">
+            <FIELDS>
+                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="userto"/>
+                <FIELD NAME="userto" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="id" NEXT="userfrom"/>
+                <FIELD NAME="userfrom" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="userto" NEXT="timecreated"/>
+                <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The time that the notification was posted" PREVIOUS="userfrom" NEXT="component"/>
+                <FIELD NAME="component" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="" PREVIOUS="timecreated" NEXT="type"/>
+                <FIELD NAME="type" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="" PREVIOUS="component" NEXT="icon"/>
+                <FIELD NAME="icon" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="" PREVIOUS="type" NEXT="courseid"/>
+                <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="" PREVIOUS="icon" NEXT="img"/>
+                <FIELD NAME="img" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="" PREVIOUS="courseid" NEXT="contextname"/>
+                <FIELD NAME="contextname" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="" PREVIOUS="img" NEXT="contexturl"/>
+                <FIELD NAME="contexturl" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="" PREVIOUS="contextname" NEXT="text"/> 
+                <FIELD NAME="text" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="" PREVIOUS="contexturl" NEXT="eventdata"/> 
+                <FIELD NAME="eventdata" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="JSON encoded eventdata object" PREVIOUS="text"/>
+            </FIELDS>
+            <KEYS>
+                <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="The unique id for this notification instance."/>
+            </KEYS>
+            <INDEXES>
+                <INDEX NAME="userto" UNIQUE="false" FIELDS="userto" COMMENT="The user this notification is for."/>
+            </INDEXES>
+        </TABLE>
+    </TABLES>
+</XMLDB>
+
+
+

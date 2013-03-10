@@ -1,0 +1,47 @@
+/* 
+    Document   : style.css
+    Created on : 08-Mar-2013, 10:05:41
+    Author     : frogprincess
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.block_culactivity_stream {
+    height: 300px;
+    overflow: scroll;
+}
+
+.block_culactivity_stream ul {
+    list-style: none;
+    margin: 0;
+}
+
+.block_culactivity_stream .coursepicture {
+    display: inline-block;
+    float: left;
+    width: 25%;
+}
+
+.block_culactivity_stream .coursepicture img {
+    width: 40px;
+}
+
+.block_culactivity_stream .text {
+    display: inline-block;
+    width: 65%;
+}
+
+.block_culactivity_stream .activityicon {
+    display: inline-block;
+    width: 10%;
+}
+
+.block_culactivity_stream .timesince {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    font-size: 90%;
+    font-style: italic;
+    font-weight: bold;
+}
+
