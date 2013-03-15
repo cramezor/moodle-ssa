@@ -28,30 +28,21 @@
 require_once($CFG->dirroot.'/message/output/lib.php');
 
 /**
- * 
+ * Main class for handling messages
  */
 class message_output_culactivity_stream extends message_output {
 
     /**
+     * Processes the message, adds it to the message_culactivity_stream table
+     * This function is called by send_message function in lib/messagelib.php
      * 
-     * @global type $CFG
-     * @global type $DB
-     * @param type $eventdata
+     * @global stdClass $CFG
+     * @global stdClass $DB
+     * @param stdClass $eventdata
      * @return boolean
      */
-    public function send_message($eventdata) {
-        // Given a message object and user info, this actually
-        // sends it. This function is called by send_message
-        // function in lib/messagelib.php
-
+    public function send_message($eventdata) {   
         global $CFG, $DB;        
-        
-        /*
-        If (!$eventdata->notification) {
-            return true;
-        }
-        
-         */
 
         // skip any messaging suspended and deleted users
         if ($eventdata->userto->auth === 'nologin' or $eventdata->userto->suspended or $eventdata->userto->deleted) {
@@ -61,39 +52,44 @@ class message_output_culactivity_stream extends message_output {
         // insert the notification
         $notification = new stdClass();
         $notification->userid = $eventdata->userto->id;
-        if (isset($notification->course)){
+        
+        if (isset($eventdata->course)){
            $notification->courseid = $eventdata->course->id; 
         }
+        
         $notification->timecreated = time();
         $notification->eventdata = json_encode($eventdata);
         $result = $DB->insert_record('message_culactivity_stream', $notification);
+        
         return $result;
     }
 
     /**
+     * This defines the config form fragment used on user
+     * messaging preferences interface (message/edit.php)
      * 
      * @param type $preferences
      * @return null
      */
-    public function config_form($preferences) {
-        // This defines the config form fragment used on user
-        // messaging preferences interface (message/edit.php)
+    public function config_form($preferences) {        
         return null;
     }
 
     /**
+     * This processes the data from the config form fragment
+     * (used in message/edit.php)
      * 
      * @param type $form
      * @param type $preferences
      * @return boolean
      */
     public function process_form($form, &$preferences) {
-        // This processes the data from the config form fragment
-        // (used in message/edit.php)
         return true;
     }
 
     /**
+     * This loads up user config for this plugin set via
+     * config form fragment (used in message/edit.php)
      * 
      * @global type $USER
      * @param type $preferences
@@ -101,8 +97,6 @@ class message_output_culactivity_stream extends message_output {
      * @return boolean
      */
     public function load_data(&$preferences, $userid) {
-        // This loads up user config for this plugin set via
-        // config form fragment (used in message/edit.php)
         global $USER;
         return true;
     }

@@ -18,11 +18,18 @@
 /**
  * Strings for component 'block_culactivity_stream', language 'en'
  *
- * @package    local
+ * @package    block
  * @subpackage culactivity_stream
  * @copyright  2013 Amanda Doughty <amanda.doughty.1@city.ac.uk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * 
  */
 
+$string['activitystream'] = 'Activity Stream';
+$string['newer'] = 'newer';
+$string['older'] = 'older';
 $string['pluginname'] = 'CUL Activity Stream Block';
+$string['second'] = 'second';
+$string['visit'] = 'Visit';
+
+

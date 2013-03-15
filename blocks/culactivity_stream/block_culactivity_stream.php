@@ -27,22 +27,24 @@
 
 require_once('locallib.php');
 
+
 /**
- * 
+ * Main culactivity_stream block class for display on course pages
  */
 class block_culactivity_stream extends block_base {
     
     /**
-     * 
+     * Initialiser
      */
     function init() {
-        $this->title = get_string('pluginname', 'block_culactivity_stream');
+        $this->title = get_string('activitystream', 'block_culactivity_stream');
     }
 
+    
     /**
-     * 
-     * @return type
-     */
+    * Fetches content for the block when displayed
+    * @return string Block content
+    */
     function get_content() {
         if ($this->content !== NULL) {
             return $this->content;
@@ -53,21 +55,61 @@ class block_culactivity_stream extends block_base {
             return $this->content;
         }
 
+        $limitnum = 5;
+        $page = optional_param('block_culactivity_stream_page', 1, PARAM_RAW);
+        $limitfrom = $page > 1? ($page*$limitnum)-$limitnum : 0;
+
         $this->content = new stdClass;
         $this->content->text = '';
         $this->content->footer = '';
-        $notifications = block_culactivity_stream_get_notifications();
+        list($count, $notifications) = block_culactivity_stream_get_notifications($limitfrom, $limitnum);
         $renderer = $this->page->get_renderer('block_culactivity_stream');
+        // can't do this in init
+        $this->title = $renderer->culactivity_stream_title();
         $this->content->text = $renderer->culactivity_stream($notifications);
+
+        $prev = false;
+        $next = false;
+
+        if ($page > 1) {
+            // Add a 'newer' link
+            $prev = $page-1;
+        }
+
+        if (($limitfrom+$limitnum) < $count) {
+            // Add an 'older' link
+            $next = $page+1;
+        }
+
+        $this->content->text .= $renderer->culactivity_stream_pagination($prev, $next);
+        
+        $this->page->requires->yui_module('moodle-block_culactivity_stream-scroll', 
+                'M.blocks_culactivity_stream.init_scroll',
+                array(array('limitnum'=>$limitnum, 'count'=>$count)));       
+
         return $this->content;
     }
 
-    /**
-     * 
-     * @return type
+    /** 
+     * Returns a list of formats, and whether the block
+     * should be displayed within them. culactivity_stream should
+     * only be displayed within courses.
+     * @return array(string => boolean) List of formats
      */
     public function applicable_formats() {
-        return array('my-index' => true);
+        return array('my-index' => true, 'course' => true);
     }
+    
+    /**
+     * Returns whether multiple culactivity_stream blocks
+     * are allowed within the same course.
+     * In the case of culactivity_stream, no.
+     * @return boolean Multiple blocks?
+     * @version 2010081801
+     * @since 2010081801
+     */
+    public function instance_allow_multiple() {
+        return false;
+    }    
 }
 

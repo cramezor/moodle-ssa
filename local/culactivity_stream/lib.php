@@ -26,39 +26,63 @@
  */
 
 
+/**
+ * Function for handling mod_created events
+ * 
+ * @param stdClass $eventdata
+ * @return bool true
+ */
+function culactivity_stream_mod_created($eventdata) {
+    return culactivity_stream_course_update($eventdata, 'mod_created');
+}
 
 /**
+ * Function for handling mod_updated events
  * 
- * @param type $eventdata
+ * @param stdClass $eventdata
+ * @return bool true
+ */
+function culactivity_stream_mod_updated($eventdata) {
+    return culactivity_stream_course_update($eventdata, 'mod_updated');
+}
+
+/**
+ * Function to send messages to users following events that update courses
+ * 
+ * @param stdClass $eventdata
     * Structure of $eventdata:
     * $eventdata->modulename
     * $eventdata->name       
     * $eventdata->cmid       
     * $eventdata->courseid   
-    * $eventdata->userid     
- * @return boolean
+    * $eventdata->userid 
+ * @param string $type the name of the event    
+ * @return boolean true
  */
-function culactivity_stream_mod_created($eventdata) {
+function culactivity_stream_course_update($eventdata, $type) {
     global $CFG, $DB;
+
+    $course = $DB->get_record('course', array('id'=>$eventdata->courseid));
+    $messagetext = get_string($type, 'local_culactivity_stream', $eventdata->name);
+    $messagetext .= get_string('incourse', 'local_culactivity_stream', $course->shortname);
     
     // required
     $message = new stdClass();
     $message->component = 'local_culactivity_stream';
     $message->modulename = $eventdata->modulename;
-    $message->name = 'mod_created';
+    $message->name = 'course_updates';
     $message->userfrom = $DB->get_record('user', array('id'=>$eventdata->userid));
-    $message->subject          = get_string('mod_created', 'local_culactivity_stream', $eventdata->name);
-    $message->fullmessage      = get_string('mod_created', 'local_culactivity_stream', $eventdata->name);
+    $message->subject          = $messagetext;
+    $message->fullmessage      = $messagetext;
     $message->fullmessageformat = FORMAT_PLAIN;
-    $message->fullmessagehtml  = get_string('mod_created', 'local_culactivity_stream', $eventdata->name);
-    $message->smallmessage     = get_string('mod_created', 'local_culactivity_stream', $eventdata->name);
+    $message->fullmessagehtml  = $messagetext;
+    $message->smallmessage     = $messagetext;
     
     // optional
     $message->notification = 1;
-    $message->course = $DB->get_record('course', array('id'=>$eventdata->courseid));
-    $message->contexturl      = "$CFG->wwwroot/$eventdata->modulename/view.php?id=$eventdata->cmid";
-    $message->contexturlname  = $message->name;
-    
+    $message->course = $course;
+    $message->contexturl      = "$CFG->wwwroot/course/view.php?id=$eventdata->courseid";
+    $message->contexturlname  = $eventdata->name;    
         
     // foreach user that can see this
     $context = $context = context_course::instance($eventdata->courseid);

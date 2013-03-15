@@ -27,7 +27,7 @@
 
 /**
  * 
- * @global type $DB
+ * @global stdClass $DB
  * @return boolean
  */
 function xmldb_local_culactivity_stream_install(){

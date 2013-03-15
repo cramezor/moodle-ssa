@@ -1,39 +1,50 @@
-/* 
-    Document   : style.css
-    Created on : 08-Mar-2013, 10:05:41
-    Author     : frogprincess
-    Description:
-        Purpose of the stylesheet follows.
-*/
 
-.block_culactivity_stream {
-    height: 300px;
-    overflow: scroll;
+div.block_culactivity_stream div.content {
+    padding: 0;
+    margin: 0;
+}
+
+.block_culactivity_stream .culactivity_stream {
+    width: 97%;
+    max-height: 400px;
+    margin: 0;
+    padding: 0;
+    overflow-y: scroll;
 }
 
 .block_culactivity_stream ul {
     list-style: none;
     margin: 0;
+    
+}
+
+.block_culactivity_stream li {
+    padding: 1%;
+}
+
+.block_culactivity_stream li.new {
+    background-color: #FFFF99;
 }
 
 .block_culactivity_stream .coursepicture {
     display: inline-block;
     float: left;
-    width: 25%;
+    width: 20%;
+    
 }
 
 .block_culactivity_stream .coursepicture img {
-    width: 40px;
+    width: 35px;
 }
 
 .block_culactivity_stream .text {
     display: inline-block;
-    width: 65%;
+    width: 70%;
 }
 
 .block_culactivity_stream .activityicon {
     display: inline-block;
-    width: 10%;
+    width: 8%;
 }
 
 .block_culactivity_stream .timesince {
@@ -43,5 +54,21 @@
     font-size: 90%;
     font-style: italic;
     font-weight: bold;
+}
+
+.block_culactivity_stream .contexturls {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    font-size: 90%;
+}
+
+.block_culactivity_stream hr {
+    margin: 5px 0;
+}
+
+div.block_culactivity_stream #loadinggif {
+    display: none;
+    text-align: center;    
 }
 

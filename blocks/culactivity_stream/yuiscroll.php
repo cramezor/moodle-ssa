@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,28 +15,35 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * CUL Activity Stream plugin event handler definition.
+ * Infinite scrolling functionality for culactivity_stream block.
  *
- * @package    local
+ * @package    block
  * @subpackage culactivity_stream
  * @copyright  2013 Amanda Doughty <amanda.doughty.1@city.ac.uk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * 
  */
 
-/* List of handlers */
-$handlers = array (
-    'mod_created' => array (
-        'handlerfile'      => '/local/culactivity_stream/lib.php',
-        'handlerfunction'  => 'culactivity_stream_mod_created',
-        'schedule'         => 'instant',
-        'internal'         => 1,
-    ),
-    'mod_updated' => array (
-        'handlerfile'      => '/local/culactivity_stream/lib.php',
-        'handlerfunction'  => 'culactivity_stream_mod_updated',
-        'schedule'         => 'instant',
-        'internal'         => 1,
-    )
+define('AJAX_SCRIPT', true);
 
-);
+require_once(dirname(__FILE__) . '/../../config.php');
+require_once(dirname(__FILE__) . '/locallib.php');
+
+require_sesskey();
+require_login();
+
+$PAGE->set_context(context_system::instance());
+
+$limitfrom = required_param('limitfrom', PARAM_INT);
+$limitnum = required_param('limitnum', PARAM_INT);
+$list = '';
+
+// get more notifications
+list($count, $notifications) = block_culactivity_stream_get_notifications($limitfrom, $limitnum);
+
+$renderer = $PAGE->get_renderer('block_culactivity_stream');
+if ($notifications){
+    $list .= $renderer->culactivity_stream_items ($notifications);
+}
+
+echo $list;

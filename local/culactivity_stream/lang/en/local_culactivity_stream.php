@@ -25,7 +25,8 @@
  * 
  */
 
-
-$string['pluginname'] = 'CUL Activity Stream';
-$string['messageprovider:mod_created'] = 'Course updates';
+$string['incourse'] = ' in {$a}.';
+$string['messageprovider:course_updates'] = 'Course updates';
 $string['mod_created'] = '{$a} created';
+$string['mod_updated'] = '{$a} updated';
+$string['pluginname'] = 'CUL Activity Stream';

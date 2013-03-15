@@ -16,28 +16,44 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * CUL Activity Stream plugin event handler definition.
+ * CUL Activity Stream Block
  *
- * @package    local
+ * @package    block
  * @subpackage culactivity_stream
  * @copyright  2013 Amanda Doughty <amanda.doughty.1@city.ac.uk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- * 
+ *
  */
 
-/* List of handlers */
-$handlers = array (
-    'mod_created' => array (
-        'handlerfile'      => '/local/culactivity_stream/lib.php',
-        'handlerfunction'  => 'culactivity_stream_mod_created',
-        'schedule'         => 'instant',
-        'internal'         => 1,
-    ),
-    'mod_updated' => array (
-        'handlerfile'      => '/local/culactivity_stream/lib.php',
-        'handlerfunction'  => 'culactivity_stream_mod_updated',
-        'schedule'         => 'instant',
-        'internal'         => 1,
-    )
 
-);
+/**
+ * Upgrade code for the local_culactivity_stream plugin
+ *
+ * @param int $oldversion The version that we are upgrading from
+ */
+function xmldb_block_culactivity_stream_upgrade($oldversion) {
+    global $CFG, $DB;
+    $dbman = $DB->get_manager();
+
+    if ($oldversion < 2013031505) {
+        $table = new xmldb_table('message_culactivity_stream');
+        $field = new xmldb_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'eventdata');
+
+        // Conditionally launch add field.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+    
+        // Save point!
+        upgrade_block_savepoint(true, 2013031505, 'culactivity_stream');
+    }
+
+    return true;
+}
+
+
+
+
+
+
+

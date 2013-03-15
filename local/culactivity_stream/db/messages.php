@@ -28,7 +28,7 @@
 $messageproviders = array (
 
     // Created course activities
-    'mod_created' => array(
+    'course_updates' => array(
     )
 
 );

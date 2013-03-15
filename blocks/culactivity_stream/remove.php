@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -16,28 +15,24 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * CUL Activity Stream plugin event handler definition.
+ * Remove notification functionality for culactivity_stream block.
  *
- * @package    local
+ * @package    block
  * @subpackage culactivity_stream
  * @copyright  2013 Amanda Doughty <amanda.doughty.1@city.ac.uk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * 
  */
 
-/* List of handlers */
-$handlers = array (
-    'mod_created' => array (
-        'handlerfile'      => '/local/culactivity_stream/lib.php',
-        'handlerfunction'  => 'culactivity_stream_mod_created',
-        'schedule'         => 'instant',
-        'internal'         => 1,
-    ),
-    'mod_updated' => array (
-        'handlerfile'      => '/local/culactivity_stream/lib.php',
-        'handlerfunction'  => 'culactivity_stream_mod_updated',
-        'schedule'         => 'instant',
-        'internal'         => 1,
-    )
+require_once(dirname(__FILE__) . '/../../config.php');
+require_once(dirname(__FILE__) . '/locallib.php');
 
-);
+require_sesskey();
+require_login();
+
+$remove = required_param('remove', PARAM_INT);
+
+// Soft delete
+block_culactivity_stream_remove_notification($remove); 
+redirect(new moodle_url('/my'));
+
