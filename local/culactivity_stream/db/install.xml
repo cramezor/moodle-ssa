@@ -18,7 +18,8 @@
                 <FIELD NAME="contextname" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="" PREVIOUS="img" NEXT="contexturl"/>
                 <FIELD NAME="contexturl" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="" PREVIOUS="contextname" NEXT="text"/> 
                 <FIELD NAME="text" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="" PREVIOUS="contexturl" NEXT="eventdata"/> 
-                <FIELD NAME="eventdata" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="JSON encoded eventdata object" PREVIOUS="text"/>
+                <FIELD NAME="eventdata" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="JSON encoded eventdata object" PREVIOUS="text" NEXT="deleted"/>
+                <FIELD NAME="deleted" TYPE="int" LENGTH="1" NOTNULL="true" SEQUENCE="false" COMMENT="" PREVIOUS="eventdata"/>
             </FIELDS>
             <KEYS>
                 <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="The unique id for this notification instance."/>

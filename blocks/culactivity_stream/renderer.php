@@ -91,6 +91,7 @@ class block_culactivity_stream_renderer extends plugin_renderer_base {
             $class = $notification->new? 'new' : 'old';
             $output .= html_writer::start_tag('li', array('id'=>'m_'.$notification->id,
                                                             'class'=>$class));
+            $output .= html_writer::start_tag('div', array('class'=>'clearfix notifictionitem'));
             $output .= html_writer::start_tag('div', array('class'=>'coursepicture'));
 
             if (is_string($notification->img)) {
@@ -108,26 +109,38 @@ class block_culactivity_stream_renderer extends plugin_renderer_base {
             $output .= html_writer::end_tag('span');
             $output .= html_writer::end_tag('div'); // .text
             $output .= html_writer::start_tag('div', array('class'=>'activityicon'));
-            $output .= $this->output->pix_icon($notification->icon, 'activity icon',
-            $notification->component, array('class'=>'iconsmall',                                            'title'=>''));
-            $output .= html_writer::end_tag('div'); // .activityicon
-            $output .= html_writer::start_tag('div', array('class'=>'contexturls')); // TODO
 
-            if ($notification->notification) {
-                $output .= html_writer::link($notification->contexturl, $notification->contexturlname);
-                $output .= ' | ';
-                $removeurl = new moodle_url('/blocks/culactivity_stream/remove.php', 
-                        array('remove'=>$notification->id, 'sesskey' => sesskey()));
-                $output .= html_writer::link($removeurl, get_string('remove'), 
-                        array('class'=>'removelink'));
+            if ($this->page->theme->resolve_image_location($notification->icon,
+                    $notification->component, true)) {
+                $output .= $this->output->pix_icon($notification->icon, '', $notification->component,
+                        array('class' => 'icon'));
+            } else {
+                $output .= $this->output->pix_icon('spacer', '', 'moodle',
+                        array('class' => 'icon noicon'));
             }
 
-            $output .= html_writer::end_tag('div'); // .contexturls
+            $output .= html_writer::end_tag('div'); // .activityicon
+            $output .= html_writer::end_tag('div'); // .notifictionitem
+            $output .= html_writer::start_tag('div', array('class'=>'meta')); // TODO
+            
             $output .= html_writer::start_tag('div', array('class'=>'timesince'));
             $output .= html_writer::start_tag('span');
             $output .= 'about ' . $notification->time . ' ago'; // TODO lang string
             $output .= html_writer::end_tag('span');
-            $output .= html_writer::end_tag('div'); // .timesince
+            $output .= html_writer::end_tag('div'); // .timesince            
+
+            // admin notifications do not have a contexturl
+            $output .= html_writer::start_tag('div', array('class'=>'contexturls')); // TODO
+            if (isset($notification->contexturl)) {                
+                $output .= html_writer::link($notification->contexturl, $notification->contexturlname);
+                $output .= ' | ';
+            }
+            $removeurl = new moodle_url('/blocks/culactivity_stream/remove_post.php',
+                    array('remove'=>$notification->id, 'sesskey' => sesskey()));
+            $output .= html_writer::link($removeurl, get_string('remove'),
+                    array('class'=>'removelink'));
+            $output .= html_writer::end_tag('div'); // .contexturls
+            $output .= html_writer::end_tag('div'); // .meta
             $output .= html_writer::end_tag('li');
             $output .= '<hr/>';
         }

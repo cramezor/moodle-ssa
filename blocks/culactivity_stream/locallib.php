@@ -91,7 +91,7 @@ function block_culactivity_stream_get_notifications($limitfrom=0, $limitnum=0, $
             if (!$notification->img = block_culactivity_stream_get_course_image ($notification->course->id)) {
                 $size = 35;
                 $email = "{$notification->course->shortname}@somewhere.com";
-                $grav_url = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=monsterid&f=y" . "&s=" . $size;
+                $grav_url = "http://www.gravatar.com/avatar/" . md5( strtolower( trim( $email ) ) ) . "?d=identicon&f=y" . "&s=" . $size;
                 $notification->img = $grav_url;  
             }
         // else get the user image

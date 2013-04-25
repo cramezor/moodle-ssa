@@ -35,18 +35,7 @@ function xmldb_block_culactivity_stream_upgrade($oldversion) {
     global $CFG, $DB;
     $dbman = $DB->get_manager();
 
-    if ($oldversion < 2013031505) {
-        $table = new xmldb_table('message_culactivity_stream');
-        $field = new xmldb_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'eventdata');
 
-        // Conditionally launch add field.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-    
-        // Save point!
-        upgrade_block_savepoint(true, 2013031505, 'culactivity_stream');
-    }
 
     return true;
 }

@@ -25,10 +25,10 @@
  * 
  */
 
-$string['activitystream'] = 'Activity Stream';
+$string['activitystream'] = 'Activity Feed';
 $string['newer'] = 'newer';
 $string['older'] = 'older';
-$string['pluginname'] = 'CUL Activity Stream Block';
+$string['pluginname'] = 'CUL Activity Feed Block';
 $string['second'] = 'second';
 $string['visit'] = 'Visit';
 

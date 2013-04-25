@@ -5,7 +5,7 @@ div.block_culactivity_stream div.content {
 }
 
 .block_culactivity_stream .culactivity_stream {
-    width: 97%;
+    width: 100%;
     max-height: 400px;
     margin: 0;
     padding: 0;
@@ -20,21 +20,35 @@ div.block_culactivity_stream div.content {
 
 .block_culactivity_stream li {
     padding: 1%;
+    line-height: 16px;
 }
 
 .block_culactivity_stream li.new {
-    background-color: #FFFF99;
+    background-color: #fffacd;
 }
 
 .block_culactivity_stream .coursepicture {
     display: inline-block;
     float: left;
-    width: 20%;
-    
+    width: 19%;
+    margin: 0 0.5%;
+    overflow: hidden;
 }
 
-.block_culactivity_stream .coursepicture img {
+.block_culactivity_stream .coursepicture a {
     width: 35px;
+    height: 35px;
+    overflow: hidden;
+    display: block;
+    position: relative;
+    float: left;}
+
+.block_culactivity_stream .coursepicture img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 35px;
+    max-width: none !important;
 }
 
 .block_culactivity_stream .text {
@@ -44,22 +58,31 @@ div.block_culactivity_stream div.content {
 
 .block_culactivity_stream .activityicon {
     display: inline-block;
-    width: 8%;
+    width: 10%;
+    text-align: right;
+}
+
+.block_culactivity_stream .activityicon img {
+    padding-right: 0;
 }
 
 .block_culactivity_stream .timesince {
     display: inline-block;
-    width: 100%;
-    text-align: center;
+    width: 50%;
+    text-align: left;
     font-size: 90%;
     font-style: italic;
     font-weight: bold;
 }
 
+.block_culactivity_stream .meta {
+    Width: 100%
+}
+
 .block_culactivity_stream .contexturls {
     display: inline-block;
-    width: 100%;
-    text-align: center;
+    width: 50%;
+    text-align: right;
     font-size: 90%;
 }
 

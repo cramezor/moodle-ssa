@@ -11,6 +11,7 @@ YUI.add('moodle-block_culactivity_stream-scroll', function(Y) {
         count: null,
         scroller: null,
         reloader: null,
+        timer: null,
 
         initializer: function(params) {
             
@@ -27,8 +28,8 @@ YUI.add('moodle-block_culactivity_stream-scroll', function(Y) {
             this.limitnum = params.limitnum;
             this.count = params.count;
             this.filltobelowblock();
-            // Refresh the feed every 10 mins
-            Y.later(1000*60*5, this, this.reloadnotifications, [], true);
+            // Refresh the feed every 5 mins
+            this.timer = Y.later(1000*60*5, this, this.reloadnotifications, [], true);
         },
         
         filltobelowblock: function() {
@@ -59,13 +60,18 @@ YUI.add('moodle-block_culactivity_stream-scroll', function(Y) {
                     limitnum: this.limitnum
                 };
 
-                Y.io(M.cfg.wwwroot+'/blocks/culactivity_stream/yuiscroll.php', {
+                Y.io(M.cfg.wwwroot+'/blocks/culactivity_stream/scroll_ajax.php', {
                     method: 'POST',
                     data: build_querystring(params),
                     context: this,
                     on: {
                         success: function(id, e) {
-                            Y.one('.block_culactivity_stream ul').append(e.responseText);
+                            var data = Y.JSON.parse(e.responseText);
+                            if (data.error) {
+                                Y.one('.block_culactivity_stream ul').append(data.error);
+                            } else {
+                                Y.one('.block_culactivity_stream ul').append(data.output);                                
+                            }
                             Y.one('#loadinggif').setStyle('display', 'none');
                         },
                         failure: function(id, e) {
@@ -98,15 +104,21 @@ YUI.add('moodle-block_culactivity_stream-scroll', function(Y) {
                 lastid : lastid
             };
 
-            Y.io(M.cfg.wwwroot+'/blocks/culactivity_stream/yuireload.php', {
+            Y.io(M.cfg.wwwroot+'/blocks/culactivity_stream/reload_ajax.php', {
                 method: 'POST',
                 data: build_querystring(params),
                 context: this,
                 on: {
-                    success: function(id, e) {                            
-                        Y.one('.block_culactivity_stream ul').prepend(e.responseText);                            
-                        Y.one('#loadinggif').setStyle('display', 'none');
-                    },
+                    success: function(id, e) {
+                            var data = Y.JSON.parse(e.responseText);
+                            if (data.error) {
+                                Y.one('.block_culactivity_stream ul').prepend(data.error);
+                                this.timer.cancel();
+                            } else {
+                                Y.one('.block_culactivity_stream ul').prepend(data.output);
+                            }
+                            Y.one('#loadinggif').setStyle('display', 'none');
+                        },
                     failure: function(id, e) {
                         // error message
                         Y.one('#loadinggif').setStyle('display', 'none');
@@ -126,7 +138,7 @@ YUI.add('moodle-block_culactivity_stream-scroll', function(Y) {
             // returns an object with params as attributes
             var params = Y.QueryString.parse(querystring);            
             
-            Y.io(M.cfg.wwwroot+'/blocks/culactivity_stream/yuiremove.php', {
+            Y.io(M.cfg.wwwroot+'/blocks/culactivity_stream/remove_ajax.php', {
                 method: 'POST',
                 data: querystring,
                 context: this,
@@ -161,5 +173,5 @@ YUI.add('moodle-block_culactivity_stream-scroll', function(Y) {
         return new SCROLL(params);
     };
   }, '@VERSION@', {
-      requires:['base', 'dom-core', 'node', 'querystring']
+      requires:['base', 'io', 'json-parse', 'dom-core', 'node', 'querystring']
   });

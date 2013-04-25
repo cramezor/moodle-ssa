@@ -63,8 +63,9 @@ function culactivity_stream_course_update($eventdata, $type) {
     global $CFG, $DB;
 
     $course = $DB->get_record('course', array('id'=>$eventdata->courseid));
-    $messagetext = get_string($type, 'local_culactivity_stream', $eventdata->name);
-    $messagetext .= get_string('incourse', 'local_culactivity_stream', $course->shortname);
+    $messagetext = get_string($type, 'local_culactivity_stream', $eventdata->name);    
+    $coursename = $course->idnumber? $course->idnumber : $course->fullname;    
+    $messagetext .= get_string('incourse', 'local_culactivity_stream', $coursename);
     
     // required
     $message = new stdClass();
@@ -81,7 +82,7 @@ function culactivity_stream_course_update($eventdata, $type) {
     // optional
     $message->notification = 1;
     $message->course = $course;
-    $message->contexturl      = "$CFG->wwwroot/course/view.php?id=$eventdata->courseid";
+    $message->contexturl = "$CFG->wwwroot/mod/$eventdata->modulename/view.php?id=$eventdata->cmid";
     $message->contexturlname  = $eventdata->name;    
         
     // foreach user that can see this
