@@ -36,16 +36,6 @@ function xmldb_local_culactivity_stream_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
 
-    if ($oldversion < 2013040200) {
-        $table = new xmldb_table('message_culactivity_stream');
-        $field = new xmldb_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'eventdata');
-
-        // Conditionally launch add field.
-        if (!$dbman->field_exists($table, $field)) {
-            $dbman->add_field($table, $field);
-        }
-
-    }
 
 
     return true;

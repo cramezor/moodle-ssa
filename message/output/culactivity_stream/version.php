@@ -26,6 +26,5 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2013031500;        // The current plugin version (Date: YYYYMMDDXX)
-$plugin->requires  = 2012112900;        // Requires this Moodle version
+$plugin->version   = 2013050900;        // The current plugin version (Date: YYYYMMDDXX)
 $plugin->component = 'message_culactivity_stream';  // Full name of the plugin (used for diagnostics)

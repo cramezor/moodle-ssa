@@ -78,10 +78,10 @@ function block_culactivity_stream_get_notifications($limitfrom=0, $limitnum=0, $
         if (!isguestuser() && !empty($notification->course)) {
 
             if (!empty($USER->lastcourseaccess[$notification->course->id])) {
-                if ($USER->lastcourseaccess[$notification->course->id] > $lastcourseaccess) {
-                    $lastcourseaccess = $USER->lastcourseaccess[$notification->course->id];
-                    
-                }
+                //if ($USER->lastcourseaccess[$notification->course->id] > $lastcourseaccess) {
+                $lastcourseaccess = $USER->lastcourseaccess[$notification->course->id];
+                   
+                //}
             }
         }
         

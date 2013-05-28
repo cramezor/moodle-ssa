@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="message/output/culactivity_stream/db" VERSION="20130310" COMMENT="XMLDB file for Moodle message/output/culactivity_stream"
+<XMLDB PATH="message/output/culactivity_stream/db" VERSION="20130508" COMMENT="XMLDB file for Moodle message/output/culactivity_stream"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+    xsi:noNamespaceSchemaLocation="../../../../lib/xmldb/xmldb.xsd"
 >
-    <TABLES>
-        <TABLE NAME="message_culactivity_stream" COMMENT="This table saves notifications.">
-            <FIELDS>
-                <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true" NEXT="userid"/>
-                <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="id" NEXT="courseid"/>
-                <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="false" DEFAULT="0" SEQUENCE="false" PREVIOUS="userid" NEXT="timecreated"/>
-                <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="The time that the notification was posted" PREVIOUS="courseid" NEXT="eventdata"/>
-                <FIELD NAME="eventdata" TYPE="text" NOTNULL="true" SEQUENCE="false" COMMENT="JSON encoded eventdata object" PREVIOUS="timecreated"/>
-            </FIELDS>
-            <KEYS>
-                <KEY NAME="primary" TYPE="primary" FIELDS="id" COMMENT="The unique id for this notification instance."/>
-            </KEYS>
-            <INDEXES>
-                <INDEX NAME="userid" UNIQUE="false" FIELDS="userid" COMMENT="The user this notification is for."/>
-            </INDEXES>
-        </TABLE>
-    </TABLES>
+  <TABLES>
+    <TABLE NAME="message_culactivity_stream" COMMENT="message_culactivity_stream table retrofitted from MySQL">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="18" NOTNULL="true" SEQUENCE="true" NEXT="userid"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="18" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="id" NEXT="courseid"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="18" NOTNULL="false" DEFAULT="0" SEQUENCE="false" PREVIOUS="userid" NEXT="timecreated"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="18" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="courseid" NEXT="eventdata"/>
+        <FIELD NAME="eventdata" TYPE="text" NOTNULL="true" SEQUENCE="false" PREVIOUS="timecreated" NEXT="deleted"/>
+        <FIELD NAME="deleted" TYPE="int" LENGTH="2" NOTNULL="true" DEFAULT="0" SEQUENCE="false" PREVIOUS="eventdata"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary_id" TYPE="primary" FIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="index_userid" UNIQUE="false" FIELDS="userid" NEXT="index_courseid"/>
+        <INDEX NAME="index_courseid" UNIQUE="false" FIELDS="courseid" PREVIOUS="index_userid"/>
+      </INDEXES>
+    </TABLE>
+  </TABLES>
 </XMLDB>

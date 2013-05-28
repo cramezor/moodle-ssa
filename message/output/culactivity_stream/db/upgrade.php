@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -15,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Upgrade code for CUL Activity Stream message processor
+ * Upgrade code for the CUL Activity Stream
  *
  * @package    message
  * @subpackage culactivity_stream
@@ -25,7 +26,7 @@
  */
 
 /**
- * Upgrade code for the culactivity_stream message processor
+ * Upgrade code for the local_culactivity_stream plugin
  *
  * @param int $oldversion The version that we are upgrading from
  */
@@ -35,15 +36,16 @@ function xmldb_message_culactivity_stream_upgrade($oldversion) {
     $dbman = $DB->get_manager();
 
 
-    // Moodle v2.2.0 release upgrade line
-    // Put any upgrade step following this
+    if ($oldversion < 2013040200) {
+        $table = new xmldb_table('message_culactivity_stream');
+        $field = new xmldb_field('deleted', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '0', 'eventdata');
 
-    // Moodle v2.3.0 release upgrade line
-    // Put any upgrade step following this
+        // Conditionally launch add field.
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
 
-
-    // Moodle v2.4.0 release upgrade line
-    // Put any upgrade step following this
+    }
 
 
     return true;
