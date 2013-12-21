@@ -1,0 +1,11 @@
+User-agent: *
+Disallow: /login/logout.php
+
+User-agent: *
+Disallow: /*?*
+
+User-agent: *
+Disallow: /course/*
+
+User-agent: *
+Disallow: /stats/*

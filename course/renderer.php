@@ -1592,6 +1592,7 @@ class core_course_renderer extends plugin_renderer_base {
             $classes[] = 'loaded';
             if (!empty($categorycontent)) {
                 $classes[] = 'with_children';
+                $classes[] = 'collapsed';
             }
         }
 

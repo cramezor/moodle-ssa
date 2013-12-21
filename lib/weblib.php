@@ -1772,6 +1772,8 @@ function purify_html($text, $options = array()) {
             $config->set('HTML.SafeObject', true);
             $config->set('Output.FlashCompat', true);
             $config->set('HTML.SafeEmbed', true);
+            $config->set('HTML.SafeIframe', true);
+            $config->set('URI.SafeIframeRegexp','%^(http|https)://[a-z]%');
         }
 
         if ($allowid) {

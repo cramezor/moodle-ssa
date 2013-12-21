@@ -95,7 +95,7 @@ class mod_assign_renderer extends plugin_renderer_base {
 
         $o = '';
         $o .= $this->output->heading($result->heading, 4);
-        $o .= $this->output->notification($result->message);
+        $o .= $this->output->notification($result->message, 'notifysuccess');
         $o .= $this->output->continue_button($url);
         return $o;
     }
@@ -684,16 +684,16 @@ class mod_assign_renderer extends plugin_renderer_base {
                     $o .= $this->output->box_end();
                     $o .= $this->output->box_end();
                 } else if ($submission->status == ASSIGN_SUBMISSION_STATUS_REOPENED) {
-                    $o .= $this->output->box_start('generalbox submissionaction');
-                    $urlparams = array('id' => $status->coursemoduleid,
-                                       'action' => 'editprevioussubmission',
-                                       'sesskey'=>sesskey());
-                    $o .= $this->output->single_button(new moodle_url('/mod/assign/view.php', $urlparams),
-                                                       get_string('addnewattemptfromprevious', 'assign'), 'get');
-                    $o .= $this->output->box_start('boxaligncenter submithelp');
-                    $o .= get_string('addnewattemptfromprevious_help', 'assign');
-                    $o .= $this->output->box_end();
-                    $o .= $this->output->box_end();
+                    //$o .= $this->output->box_start('generalbox submissionaction');
+                    //$urlparams = array('id' => $status->coursemoduleid,
+                    //                   'action' => 'editprevioussubmission',
+                    //                  'sesskey'=>sesskey());
+                    //$o .= $this->output->single_button(new moodle_url('/mod/assign/view.php', $urlparams),
+                    //                                   get_string('addnewattemptfromprevious', 'assign'), 'get');
+                    //$o .= $this->output->box_start('boxaligncenter submithelp');
+                    //$o .= get_string('addnewattemptfromprevious_help', 'assign');
+                    //$o .= $this->output->box_end();
+                    //$o .= $this->output->box_end();
                     $o .= $this->output->box_start('generalbox submissionaction');
                     $urlparams = array('id' => $status->coursemoduleid, 'action' => 'editsubmission');
                     $o .= $this->output->single_button(new moodle_url('/mod/assign/view.php', $urlparams),
