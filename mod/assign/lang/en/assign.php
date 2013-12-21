@@ -370,6 +370,7 @@ $string['submissionstatus_draft'] = 'Draft (not submitted)';
 $string['submissionstatusheading'] = 'Submission status';
 $string['submissionstatus_marked'] = 'Graded';
 $string['submissionstatus_new'] = 'New submission';
+$string['submissionstatus_previous'] = 'Previous submission';
 $string['submissionstatus_reopened'] = 'Reopened';
 $string['submissionstatus_'] = 'No submission';
 $string['submissionstatus'] = 'Submission status';

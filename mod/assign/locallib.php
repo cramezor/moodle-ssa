@@ -30,6 +30,7 @@ defined('MOODLE_INTERNAL') || die();
 define('ASSIGN_SUBMISSION_STATUS_REOPENED', 'reopened');
 define('ASSIGN_SUBMISSION_STATUS_DRAFT', 'draft');
 define('ASSIGN_SUBMISSION_STATUS_SUBMITTED', 'submitted');
+define('ASSIGN_SUBMISSION_STATUS_PREVIOUS', 'previous');
 
 // Search filters for grading page.
 define('ASSIGN_FILTER_SUBMITTED', 'submitted');
@@ -6565,6 +6566,10 @@ class assign {
             $submission->attemptnumber >= ($this->get_instance()->maxattempts - 1)) {
             return false;
         }
+
+        // Set the status of the old attempt to previous
+        $submission->status = ASSIGN_SUBMISSION_STATUS_PREVIOUS;
+	$this->update_submission($submission, $userid, false, $this->get_instance()->teamsubmission);
 
         // Create the new submission record for the group/user.
         if ($this->get_instance()->teamsubmission) {

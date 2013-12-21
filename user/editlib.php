@@ -154,6 +154,8 @@ function useredit_shared_definition(&$mform, $editoroptions = null, $filemanager
         $mform->addRule('email', $strrequired, 'required', null, 'client');
         $mform->setType('email', PARAM_EMAIL);
     }
+//Customisation to hide settings
+    $mform->addElement('header', 'moodle_settings', 'Settings');
 
     $choices = array();
     $choices['0'] = get_string('emaildisplayno');

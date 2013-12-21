@@ -49,9 +49,9 @@ YUI.add('moodle-mod_assign-history', function (Y) {
                     panel.set('aria-live', 'polite');
 
                     wrapper.addClass(CSS.LINK);
-                    wrapper.addClass(CSS.CLOSED);
+                    (COUNT == 1) ? wrapper.addClass(CSS.OPEN) : wrapper.addClass(CSS.CLOSED);
                     panel.addClass(CSS.PANEL);
-                    panel.hide();
+                    (COUNT == 1) ? panel.show() : panel.hide();
                     link = null;
                 } else {
                     link = this;

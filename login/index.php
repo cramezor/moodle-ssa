@@ -31,7 +31,7 @@ require_once('lib.php');
 if (!isset($CFG->additionalhtmlhead)) {
     $CFG->additionalhtmlhead = '';
 }
-$CFG->additionalhtmlhead .= '<meta name="robots" content="noindex" />';
+//$CFG->additionalhtmlhead .= '<meta name="robots" content="noindex" />';
 
 redirect_if_major_upgrade_required();
 
@@ -345,7 +345,7 @@ if (isloggedin() and !isguestuser()) {
     echo $OUTPUT->confirm(get_string('alreadyloggedin', 'error', fullname($USER)), $logout, $continue);
     echo $OUTPUT->box_end();
 } else {
-    include("index_form.html");
+    include("oauth2_form.html");
     if ($errormsg) {
         $PAGE->requires->js_init_call('M.util.focus_login_error', null, true);
     } else if (!empty($CFG->loginpageautofocus)) {
