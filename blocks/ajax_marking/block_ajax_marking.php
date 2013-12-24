@@ -151,7 +151,7 @@ class block_ajax_marking extends block_base {
             // otherwise.
             if (has_capability('moodle/course:manageactivities', $PAGE->context)) {
                 $this->content = new stdClass();
-                $this->content->text .= get_string('nogradedassessments', 'block_ajax_marking');
+                $this->content->text = get_string('nogradedassessments', 'block_ajax_marking');
             } else {
                 // This will stop the other functions like has_content() from running all the way
                 // through this again.
