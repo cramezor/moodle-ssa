@@ -1090,9 +1090,10 @@ class global_navigation extends navigation_node {
         $this->rootnodes = array();
         if (get_home_page() == HOMEPAGE_SITE) {
             // The home element should be my moodle because the root element is the site
-            if (isloggedin() && !isguestuser()) {  // Makes no sense if you aren't logged in
-                $this->rootnodes['home'] = $this->add(get_string('myhome'), new moodle_url('/my/'), self::TYPE_SETTING, null, 'home');
-            }
+            // Core hack - don't show My home
+            //if (isloggedin() && !isguestuser()) {  // Makes no sense if you aren't logged in
+            //    $this->rootnodes['home'] = $this->add(get_string('myhome'), new moodle_url('/my/'), self::TYPE_SETTING, null, 'home');
+            //}
         } else {
             // The home element should be the site because the root node is my moodle
             $this->rootnodes['home'] = $this->add(get_string('sitehome'), new moodle_url('/'), self::TYPE_SETTING, null, 'home');
@@ -1298,6 +1299,9 @@ class global_navigation extends navigation_node {
         if (!$this->contains_active_node()) {
             $this->search_for_active_node();
         }
+
+        //Remove unwanted navigation links
+        $this->rootnodes['site']->remove();
 
         // If the user is not logged in modify the navigation structure as detailed
         // in {@link http://docs.moodle.org/dev/Navigation_2.0_structure}
