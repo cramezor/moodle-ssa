@@ -1022,18 +1022,18 @@ class global_navigation extends navigation_node {
         if (get_home_page() == HOMEPAGE_SITE) {
             // We are using the site home for the root element
             $properties = array(
-                'key' => 'home',
-                'type' => navigation_node::TYPE_SYSTEM,
-                'text' => get_string('home'),
-                'action' => new moodle_url('/')
+                //'key' => 'home',
+                //'type' => navigation_node::TYPE_SYSTEM,
+                'text' => ' ',
+                //'action' => new moodle_url('/')
             );
         } else {
             // We are using the users my moodle for the root element
             $properties = array(
-                'key' => 'myhome',
-                'type' => navigation_node::TYPE_SYSTEM,
-                'text' => get_string('myhome'),
-                'action' => new moodle_url('/my/')
+                //'key' => 'myhome',
+                //'type' => navigation_node::TYPE_SYSTEM,
+                //'text' => get_string('myhome'),
+                //'action' => new moodle_url('/my/')
             );
         }
 
@@ -1090,10 +1090,9 @@ class global_navigation extends navigation_node {
         $this->rootnodes = array();
         if (get_home_page() == HOMEPAGE_SITE) {
             // The home element should be my moodle because the root element is the site
-            // Core hack - don't show My home
-            //if (isloggedin() && !isguestuser()) {  // Makes no sense if you aren't logged in
-            //    $this->rootnodes['home'] = $this->add(get_string('myhome'), new moodle_url('/my/'), self::TYPE_SETTING, null, 'home');
-            //}
+            if (isloggedin() && !isguestuser()) {  // Makes no sense if you aren't logged in
+                $this->rootnodes['home'] = $this->add(get_string('myhome'), new moodle_url('/my/'), self::TYPE_SETTING, null, 'home');
+            }
         } else {
             // The home element should be the site because the root node is my moodle
             $this->rootnodes['home'] = $this->add(get_string('sitehome'), new moodle_url('/'), self::TYPE_SETTING, null, 'home');
@@ -1290,7 +1289,7 @@ class global_navigation extends navigation_node {
         // Remove any empty root nodes
         foreach ($this->rootnodes as $node) {
             // Dont remove the home node
-            /** @var navigation_node $node */
+            //** @var navigation_node $node */
             if ($node->key !== 'home' && !$node->has_children() && !$node->isactive) {
                 $node->remove();
             }
@@ -1301,6 +1300,7 @@ class global_navigation extends navigation_node {
         }
 
         //Remove unwanted navigation links
+        $this->rootnodes['home']->remove();
         $this->rootnodes['site']->remove();
 
         // If the user is not logged in modify the navigation structure as detailed
@@ -1746,7 +1746,7 @@ class global_navigation extends navigation_node {
      *
      * @param stdClass $category category to be added in navigation.
      * @param navigation_node $parent parent navigation node
-     * @param int $nodetype type of node, if category is under MyHome then it's TYPE_MY_CATEGORY
+     * @param int $nodetype type of node, if category iMyHome then it's TYPE_MY_CATEGORY
      * @return void.
      */
     protected function add_category(stdClass $category, navigation_node $parent, $nodetype = self::TYPE_CATEGORY) {
