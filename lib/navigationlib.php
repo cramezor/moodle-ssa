@@ -1300,7 +1300,9 @@ class global_navigation extends navigation_node {
         }
 
         //Remove unwanted navigation links
-        $this->rootnodes['home']->remove();
+        if ($this->rootnodes['home']) {
+            $this->rootnodes['home']->remove();
+        }
         $this->rootnodes['site']->remove();
 
         // If the user is not logged in modify the navigation structure as detailed
