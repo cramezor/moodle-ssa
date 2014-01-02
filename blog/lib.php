@@ -358,12 +358,12 @@ function blog_get_all_options(moodle_page $page, stdClass $userid = null) {
     }
 
     // If blog level is global then display a link to view all site entries
-    if (!empty($CFG->enableblogs) && $CFG->bloglevel >= BLOG_GLOBAL_LEVEL && has_capability('moodle/blog:view', context_system::instance())) {
-        $options[CONTEXT_SYSTEM] = array('viewsite' => array(
-            'string' => get_string('viewsiteentries', 'blog'),
-            'link' => new moodle_url('/blog/index.php')
-        ));
-    }
+    //if (!empty($CFG->enableblogs) && $CFG->bloglevel >= BLOG_GLOBAL_LEVEL && has_capability('moodle/blog:view', context_system::instance())) {
+    //    $options[CONTEXT_SYSTEM] = array('viewsite' => array(
+    //        'string' => get_string('viewsiteentries', 'blog'),
+    //        'link' => new moodle_url('/blog/index.php')
+    //    ));
+    //}
 
     // Return the options
     return $options;
@@ -475,8 +475,20 @@ function blog_get_options_for_course(stdClass $course, stdClass $user=null) {
         return $courseoptions[$key];
     }
 
-
+    if (has_capability('moodle/blog:create', $sitecontext)) {
+        // We can blog about this course
+        $options['courseadd'] = array(
+            'string' => get_string('blogaboutthiscourse', 'blog'),
+            'link' => new moodle_url('/blog/edit.php', array('action' => 'add', 'courseid' => $course->id))
+        );
+    }
     if (has_capability('moodle/blog:view', $sitecontext)) {
+
+        // View MY entries about this course
+        $options['courseviewmine'] = array(
+            'string' => get_string('viewmyentriesaboutcourse', 'blog'),
+            'link' => new moodle_url('/blog/index.php', array('courseid' => $course->id, 'userid' => $USER->id))
+        );
         // We can view!
         if ($CFG->bloglevel >= BLOG_SITE_LEVEL) {
             // View entries about this course
@@ -485,11 +497,6 @@ function blog_get_options_for_course(stdClass $course, stdClass $user=null) {
                 'link' => new moodle_url('/blog/index.php', array('courseid' => $course->id))
             );
         }
-        // View MY entries about this course
-        $options['courseviewmine'] = array(
-            'string' => get_string('viewmyentriesaboutcourse', 'blog'),
-            'link' => new moodle_url('/blog/index.php', array('courseid' => $course->id, 'userid' => $USER->id))
-        );
         if (!empty($user) && ($CFG->bloglevel >= BLOG_SITE_LEVEL)) {
             // View the provided users entries about this course
             $options['courseviewuser'] = array(
@@ -498,15 +505,6 @@ function blog_get_options_for_course(stdClass $course, stdClass $user=null) {
             );
         }
     }
-
-    if (has_capability('moodle/blog:create', $sitecontext)) {
-        // We can blog about this course
-        $options['courseadd'] = array(
-            'string' => get_string('blogaboutthiscourse', 'blog'),
-            'link' => new moodle_url('/blog/edit.php', array('action' => 'add', 'courseid' => $course->id))
-        );
-    }
-
 
     // Cache the options for this course
     $courseoptions[$key] = $options;
