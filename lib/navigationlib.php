@@ -3367,7 +3367,7 @@ class settings_navigation extends navigation_node {
                 break;
         }
 
-        $usersettings = $this->load_user_settings($this->page->course->id);
+        //$usersettings = $this->load_user_settings($this->page->course->id);
 
         $adminsettings = false;
         if (isloggedin() && !isguestuser() && (!isset($SESSION->load_navigation_admin) || $SESSION->load_navigation_admin)) {
