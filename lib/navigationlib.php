@@ -1022,18 +1022,18 @@ class global_navigation extends navigation_node {
         if (get_home_page() == HOMEPAGE_SITE) {
             // We are using the site home for the root element
             $properties = array(
-                //'key' => 'home',
-                //'type' => navigation_node::TYPE_SYSTEM,
-                'text' => ' ',
-                //'action' => new moodle_url('/')
+                'key' => 'home',
+                'type' => navigation_node::TYPE_SYSTEM,
+                'text' => get_string('home'),
+                'action' => new moodle_url('/')
             );
         } else {
             // We are using the users my moodle for the root element
             $properties = array(
-                //'key' => 'myhome',
-                //'type' => navigation_node::TYPE_SYSTEM,
-                //'text' => get_string('myhome'),
-                //'action' => new moodle_url('/my/')
+                'key' => 'myhome',
+                'type' => navigation_node::TYPE_SYSTEM,
+                'text' => get_string('myhome'),
+                'action' => new moodle_url('/my/')
             );
         }
 
@@ -1289,7 +1289,7 @@ class global_navigation extends navigation_node {
         // Remove any empty root nodes
         foreach ($this->rootnodes as $node) {
             // Dont remove the home node
-            //** @var navigation_node $node */
+            /** @var navigation_node $node */
             if ($node->key !== 'home' && !$node->has_children() && !$node->isactive) {
                 $node->remove();
             }
@@ -1298,12 +1298,6 @@ class global_navigation extends navigation_node {
         if (!$this->contains_active_node()) {
             $this->search_for_active_node();
         }
-
-        //Remove unwanted navigation links
-        if ($this->rootnodes['home']) {
-            $this->rootnodes['home']->remove();
-        }
-        $this->rootnodes['site']->remove();
 
         // If the user is not logged in modify the navigation structure as detailed
         // in {@link http://docs.moodle.org/dev/Navigation_2.0_structure}
@@ -1748,7 +1742,7 @@ class global_navigation extends navigation_node {
      *
      * @param stdClass $category category to be added in navigation.
      * @param navigation_node $parent parent navigation node
-     * @param int $nodetype type of node, if category iMyHome then it's TYPE_MY_CATEGORY
+     * @param int $nodetype type of node, if category is under MyHome then it's TYPE_MY_CATEGORY
      * @return void.
      */
     protected function add_category(stdClass $category, navigation_node $parent, $nodetype = self::TYPE_CATEGORY) {
@@ -3367,7 +3361,7 @@ class settings_navigation extends navigation_node {
                 break;
         }
 
-        //$usersettings = $this->load_user_settings($this->page->course->id);
+        $usersettings = $this->load_user_settings($this->page->course->id);
 
         $adminsettings = false;
         if (isloggedin() && !isguestuser() && (!isset($SESSION->load_navigation_admin) || $SESSION->load_navigation_admin)) {
