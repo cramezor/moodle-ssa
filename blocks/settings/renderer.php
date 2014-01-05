@@ -30,6 +30,7 @@ class block_settings_renderer extends plugin_renderer_base {
                 continue;
             }
 
+            // Hide usersettings from all except site admin
             if (!is_siteadmin() && $item->id === 'usersettings') {
                 continue;
             }
