@@ -26,7 +26,11 @@ class block_settings_renderer extends plugin_renderer_base {
         // array of nested li elements
         $lis = array();
         foreach ($items as $item) {
-            if (!$item->display || $item->id === 'usersettings') {
+            if (!$item->display) {
+                continue;
+            }
+
+            if (!is_siteadmin() && $item->id === 'usersettings') {
                 continue;
             }
 
