@@ -394,6 +394,14 @@ class auth_plugin_googleoauth2 extends auth_plugin_base {
         }
     }
 
+// Logout page hook
+    function logoutpage_hook() {
+        global $CFG;
+        global $redirect;
+
+        $redirect = 'https://accounts.google.com/Logout?continue=https://www.google.co.uk/search?q=ssa-vle&btnI=1';
+    }
+
 
     /**
      * Prints a form for configuring this authentication plugin.
