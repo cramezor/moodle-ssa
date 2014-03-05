@@ -44,7 +44,7 @@ class xmldb_table extends xmldb_object {
      *
      * @const maximum length of field names
      */
-    const NAME_MAX_LENGTH = 28;
+    const NAME_MAX_LENGTH = 45;
 
     /**
      * Creates one new xmldb_table
