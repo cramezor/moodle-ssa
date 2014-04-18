@@ -249,6 +249,24 @@ can be really useful in visualising the issue along with any files you consider 
 
 Version Information
 ===================
+28th March 2014 Version 2.6.1.4
+  1.  Fixed slight issue with mobile / tablet display issue of toggle all and instructions.
+  2.  Fixed issue with Bootstrap 3 breaking the layout of hidden sections when >= 2 columns.
+  3.  Fixed hidden section when "Hidden sections are shown in collapsed form." mode breaks columns.
+  4.  Fixed slight mobile / tablet display issues as shown on https://moodle.org/mod/forum/discuss.php?d=256093.
+  5.  Optimised 'print_multiple_section_page' in 'renderer.php' by using a 'break' instead of a 'continue' when the number of
+      sections is exceeded.
+
+20th February 2014 Version 2.6.1.3
+  1.  Refactoring for the 'Elegance' theme: https://github.com/moodleman/moodle-theme_elegance.
+
+16th January 2014 Version 2.6.1.2
+  1.  Fixed Essential theme overriding toggle text colour - see: https://moodle.org/mod/forum/discuss.php?d=251951.
+  2.  Fixed bullet point styles - see: https://moodle.org/mod/forum/discuss.php?d=251944.
+  3.  Refactored 'print_single_section_page()' in 'renderer.php' to call parent version of method and thus reduce
+      code duplication and maintenance.
+  4.  Removed duplicate section title when editing.
+
 18th December 2013 Version 2.6.1.1
   1.  Fixed issue reported by Graham Woodsford whereby teachers could not create Collapsed Topics courses.  This is because the
       validation method 'edit_form_validation' in 'lib.php' was failing the values passed to it.  These happened to be the
@@ -1078,6 +1096,6 @@ Desired Enhancements
 
 Me
 ==
-G J Barnard MSc. BSc(Hons)(Sndw). MBCS. CEng. CITP. PGCE. - 17th December 2013.
+G J Barnard MSc. BSc(Hons)(Sndw). MBCS. CEng. CITP. PGCE. - 28th March 2014.
 Moodle profile: http://moodle.org/user/profile.php?id=442195.
 Web profile   : http://about.me/gjbarnard

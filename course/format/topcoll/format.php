@@ -105,7 +105,7 @@ if (!empty($displaysection)) {
     /* <![CDATA[ */
 
     /* -- Toggle -- */
-    .course-content ul.ctopics li.section .content .toggle {
+    .course-content ul.ctopics li.section .content .toggle, .course-content ul.ctopics li.section .content.sectionhidden {
         background-color: <?php
                             if ($tcsettings['togglebackgroundcolour'][0] != '#') {
                                 echo '#';
@@ -115,7 +115,7 @@ if (!empty($displaysection)) {
     }
 
     /* -- Toggle text -- */
-    .course-content ul.ctopics li.section .content .toggle a {
+    .course-content ul.ctopics li.section .content .toggle a h3, .course-content ul.ctopics li.section .content.sectionhidden {
         color: <?php
                 if ($tcsettings['toggleforegroundcolour'][0] != '#') {
                     echo '#';
@@ -160,33 +160,44 @@ if (!empty($displaysection)) {
                           ?>;
     }
 
-    <?php
+<?php
     // Dynamically changing widths with language.
-    if ((!$PAGE->user_is_editing()) && ($portable == 0)) {
-        echo '.course-content ul.ctopics li.section.main .content, .course-content ul.ctopics li.tcsection .content {';
-        echo 'margin: 0 ' . get_string('topcollsidewidth', 'format_topcoll');
-        echo '}';
+    if ((!$PAGE->user_is_editing()) && ($portable == 0)) { ?>
+    .course-content ul.ctopics li.section.main .content, .course-content ul.ctopics li.tcsection .content {
+        margin: 0 <?php echo get_string('topcollsidewidth', 'format_topcoll'); ?>;
+    }
+<?php
+    } else if ($portable == 0) { ?>
+    .course-content ul.ctopics li.section.main .content, .course-content ul.ctopics li.tcsection .content {
+        margin: 0 40px;
+    }
+<?php
     }
 
     // Make room for editing icons.
-    if (!$PAGE->user_is_editing()) {
-        echo '.course-content ul.ctopics li.section.main .side, .course-content ul.ctopics li.tcsection .side {';
-        echo 'width: ' . get_string('topcollsidewidth', 'format_topcoll');
-        echo '}';
+    if (!$PAGE->user_is_editing()) { ?>
+    .course-content ul.ctopics li.section.main .side, .course-content ul.ctopics li.tcsection .side {
+        width: <?php echo get_string('topcollsidewidth', 'format_topcoll'); ?>;
+    }
+<?php
     }
 
     // Establish horizontal unordered list for horizontal columns.
-    if ($tcsettings['layoutcolumnorientation'] == 2) {
-        echo '.course-content ul.ctopics li.section {';
-        echo 'display: inline-block;';
-        echo 'vertical-align:top;';
-        echo '}';
-        echo 'body.ie7 .course-content ul.ctopics li.section {';
-        echo 'zoom: 1;';
-        echo '*display: inline;';
-        echo '}';
+    if ($tcsettings['layoutcolumnorientation'] == 2) { ?>
+    .course-content ul.ctopics li.section {
+        display: inline-block;
+        vertical-align: top;
     }
-    ?>;
+    .course-content ul.ctopics li.section.hidden {
+        display: inline-block !important; /* Only using '!important' because of Bootstrap 3. */
+    }
+    body.ie7 .course-content ul.ctopics li.section {
+        zoom: 1;
+        *display: inline;
+    }
+<?php
+    }
+    ?>
     /* ]]> */
     </style>
     <?php
