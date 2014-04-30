@@ -196,9 +196,7 @@ EDITOR.prototype = {
 
             this.currentedit.start = false;
             this.currentedit.end = false;
-            if (!this.get('readonly')) {
-                this.quicklist = new M.assignfeedback_editpdf.quickcommentlist(this);
-            }
+            this.quicklist = new M.assignfeedback_editpdf.quickcommentlist(this);
         }
     },
 
@@ -290,7 +288,6 @@ EDITOR.prototype = {
                 headerContent: this.get('header'),
                 bodyContent: this.get('body'),
                 footerContent: this.get('footer'),
-                modal: true,
                 width: '840px',
                 visible: false,
                 draggable: true
@@ -455,9 +452,7 @@ EDITOR.prototype = {
         }
 
         // Update the ui.
-        if (this.quicklist) {
-            this.quicklist.load();
-        }
+        this.quicklist.load();
         this.setup_navigation();
         this.setup_toolbar();
         this.change_page();

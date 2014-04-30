@@ -46,7 +46,7 @@ class mod_assign_grading_options_form extends moodleform {
 
         $mform->addElement('header', 'general', get_string('gradingoptions', 'assign'));
         // Visible elements.
-        $options = array(-1=>get_string('all'), 10=>'10', 20=>'20', 50=>'50', 100=>'100');
+        $options = array(-1=>get_string('all'), '5'=>5, 10=>'10', 20=>'20', 50=>'50'/*, 100=>'100'*/);	// RT Limit to 50 only
         $mform->addElement('select', 'perpage', get_string('assignmentsperpage', 'assign'), $options, $dirtyclass);
         $options = array('' => get_string('filternone', 'assign'),
                          ASSIGN_FILTER_SUBMITTED => get_string('filtersubmitted', 'assign'),
@@ -70,11 +70,12 @@ class mod_assign_grading_options_form extends moodleform {
         }
 
         // Show active/suspended user option.
+		/* RT - Just use default value
         if ($instance['showonlyactiveenrolopt']) {
             $mform->addElement('checkbox', 'showonlyactiveenrol', get_string('showonlyactiveenrol', 'grades'), '', $dirtyclass);
             $mform->addHelpButton('showonlyactiveenrol', 'showonlyactiveenrol', 'grades');
             $mform->setDefault('showonlyactiveenrol', $instance['showonlyactiveenrol']);
-        }
+        }*/
 
         // Hidden params.
         $mform->addElement('hidden', 'contextid', $instance['contextid']);
@@ -85,6 +86,10 @@ class mod_assign_grading_options_form extends moodleform {
         $mform->setType('userid', PARAM_INT);
         $mform->addElement('hidden', 'action', 'saveoptions');
         $mform->setType('action', PARAM_ALPHA);
+		
+		// RT - There are no suspended users. Always so all users
+		$mform->addElement('hidden', 'showonlyactiveenrol', $instance['showonlyactiveenrol']);
+        $mform->setType('showonlyactiveenrol', PARAM_INT);
 
         // Buttons.
         $this->add_action_buttons(false, get_string('updatetable', 'assign'));

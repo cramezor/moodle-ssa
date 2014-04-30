@@ -1209,17 +1209,16 @@ class mod_assign_external extends external_api {
                         array('assignmentid' => $assignmentid,
                               'userids' => $userids));
 
-        $cm = get_coursemodule_from_instance('assign', $params['assignmentid'], 0, false, MUST_EXIST);
+        $cm = get_coursemodule_from_instance('assign', $assignmentid, 0, false, MUST_EXIST);
         $context = context_module::instance($cm->id);
-        self::validate_context($context);
 
         $assignment = new assign($context, $cm, null);
 
         $warnings = array();
-        foreach ($params['userids'] as $userid) {
+        foreach ($userids as $userid) {
             if (!$assignment->lock_submission($userid)) {
-                $detail = 'User id: ' . $userid . ', Assignment id: ' . $params['assignmentid'];
-                $warnings[] = self::generate_warning($params['assignmentid'],
+                $detail = 'User id: ' . $userid . ', Assignment id: ' . $assignmentid;
+                $warnings[] = self::generate_warning($assignmentid,
                                                      'couldnotlock',
                                                      $detail);
             }
@@ -1273,17 +1272,16 @@ class mod_assign_external extends external_api {
                         array('assignmentid' => $assignmentid,
                               'userids' => $userids));
 
-        $cm = get_coursemodule_from_instance('assign', $params['assignmentid'], 0, false, MUST_EXIST);
+        $cm = get_coursemodule_from_instance('assign', $assignmentid, 0, false, MUST_EXIST);
         $context = context_module::instance($cm->id);
-        self::validate_context($context);
 
         $assignment = new assign($context, $cm, null);
 
         $warnings = array();
-        foreach ($params['userids'] as $userid) {
+        foreach ($userids as $userid) {
             if (!$assignment->revert_to_draft($userid)) {
-                $detail = 'User id: ' . $userid . ', Assignment id: ' . $params['assignmentid'];
-                $warnings[] = self::generate_warning($params['assignmentid'],
+                $detail = 'User id: ' . $userid . ', Assignment id: ' . $assignmentid;
+                $warnings[] = self::generate_warning($assignmentid,
                                                      'couldnotrevert',
                                                      $detail);
             }
@@ -1337,17 +1335,16 @@ class mod_assign_external extends external_api {
                         array('assignmentid' => $assignmentid,
                               'userids' => $userids));
 
-        $cm = get_coursemodule_from_instance('assign', $params['assignmentid'], 0, false, MUST_EXIST);
+        $cm = get_coursemodule_from_instance('assign', $assignmentid, 0, false, MUST_EXIST);
         $context = context_module::instance($cm->id);
-        self::validate_context($context);
 
         $assignment = new assign($context, $cm, null);
 
         $warnings = array();
-        foreach ($params['userids'] as $userid) {
+        foreach ($userids as $userid) {
             if (!$assignment->unlock_submission($userid)) {
-                $detail = 'User id: ' . $userid . ', Assignment id: ' . $params['assignmentid'];
-                $warnings[] = self::generate_warning($params['assignmentid'],
+                $detail = 'User id: ' . $userid . ', Assignment id: ' . $assignmentid;
+                $warnings[] = self::generate_warning($assignmentid,
                                                      'couldnotunlock',
                                                      $detail);
             }
@@ -1397,19 +1394,18 @@ class mod_assign_external extends external_api {
                                             array('assignmentid' => $assignmentid,
                                                   'acceptsubmissionstatement' => $acceptsubmissionstatement));
 
-        $cm = get_coursemodule_from_instance('assign', $params['assignmentid'], 0, false, MUST_EXIST);
+        $cm = get_coursemodule_from_instance('assign', $assignmentid, 0, false, MUST_EXIST);
         $context = context_module::instance($cm->id);
-        self::validate_context($context);
 
         $assignment = new assign($context, $cm, null);
 
         $warnings = array();
         $data = new stdClass();
-        $data->submissionstatement = $params['acceptsubmissionstatement'];
+        $data->submissionstatement = $acceptsubmissionstatement;
 
         if (!$assignment->submit_for_grading($data)) {
-            $detail = 'User id: ' . $USER->id . ', Assignment id: ' . $params['assignmentid'];
-            $warnings[] = self::generate_warning($params['assignmentid'],
+            $detail = 'User id: ' . $USER->id . ', Assignment id: ' . $assignmentid;
+            $warnings[] = self::generate_warning($assignmentid,
                                                  'couldnotsubmitforgrading',
                                                  $detail);
         }
@@ -1468,27 +1464,26 @@ class mod_assign_external extends external_api {
                               'userids' => $userids,
                               'dates' => $dates));
 
-        if (count($params['userids']) != count($params['dates'])) {
+        if (count($userids) != count($dates)) {
             $detail = 'Length of userids and dates parameters differ.';
-            $warnings[] = self::generate_warning($params['assignmentid'],
+            $warnings[] = self::generate_warning($assignmentid,
                                                  'invalidparameters',
                                                  $detail);
 
             return $warnings;
         }
 
-        $cm = get_coursemodule_from_instance('assign', $params['assignmentid'], 0, false, MUST_EXIST);
+        $cm = get_coursemodule_from_instance('assign', $assignmentid, 0, false, MUST_EXIST);
         $context = context_module::instance($cm->id);
-        self::validate_context($context);
 
         $assignment = new assign($context, $cm, null);
 
         $warnings = array();
-        foreach ($params['userids'] as $idx => $userid) {
-            $duedate = $params['dates'][$idx];
+        foreach ($userids as $idx => $userid) {
+            $duedate = $dates[$idx];
             if (!$assignment->save_user_extension($userid, $duedate)) {
-                $detail = 'User id: ' . $userid . ', Assignment id: ' . $params['assignmentid'] . ', Extension date: ' . $duedate;
-                $warnings[] = self::generate_warning($params['assignmentid'],
+                $detail = 'User id: ' . $userid . ', Assignment id: ' . $assignmentid . ', Extension date: ' . $duedate;
+                $warnings[] = self::generate_warning($assignmentid,
                                                      'couldnotgrantextensions',
                                                      $detail);
             }
@@ -1536,16 +1531,15 @@ class mod_assign_external extends external_api {
         $params = self::validate_parameters(self::reveal_identities_parameters(),
                                             array('assignmentid' => $assignmentid));
 
-        $cm = get_coursemodule_from_instance('assign', $params['assignmentid'], 0, false, MUST_EXIST);
+        $cm = get_coursemodule_from_instance('assign', $assignmentid, 0, false, MUST_EXIST);
         $context = context_module::instance($cm->id);
-        self::validate_context($context);
 
         $assignment = new assign($context, $cm, null);
 
         $warnings = array();
         if (!$assignment->reveal_identities()) {
-            $detail = 'User id: ' . $USER->id . ', Assignment id: ' . $params['assignmentid'];
-            $warnings[] = self::generate_warning($params['assignmentid'],
+            $detail = 'User id: ' . $USER->id . ', Assignment id: ' . $assignmentid;
+            $warnings[] = self::generate_warning($assignmentid,
                                                  'couldnotrevealidentities',
                                                  $detail);
         }
@@ -1609,21 +1603,20 @@ class mod_assign_external extends external_api {
                                             array('assignmentid' => $assignmentid,
                                                   'plugindata' => $plugindata));
 
-        $cm = get_coursemodule_from_instance('assign', $params['assignmentid'], 0, false, MUST_EXIST);
+        $cm = get_coursemodule_from_instance('assign', $assignmentid, 0, false, MUST_EXIST);
         $context = context_module::instance($cm->id);
-        self::validate_context($context);
 
         $assignment = new assign($context, $cm, null);
 
         $notices = array();
 
-        $submissiondata = (object)$params['plugindata'];
+        $submissiondata = (object)$plugindata;
 
         $assignment->save_submission($submissiondata, $notices);
 
         $warnings = array();
         foreach ($notices as $notice) {
-            $warnings[] = self::generate_warning($params['assignmentid'],
+            $warnings[] = self::generate_warning($assignmentid,
                                                  'couldnotsavesubmission',
                                                  $notice);
         }
@@ -1714,21 +1707,20 @@ class mod_assign_external extends external_api {
                                                   'applytoall' => $applytoall,
                                                   'plugindata' => $plugindata));
 
-        $cm = get_coursemodule_from_instance('assign', $params['assignmentid'], 0, false, MUST_EXIST);
+        $cm = get_coursemodule_from_instance('assign', $assignmentid, 0, false, MUST_EXIST);
         $context = context_module::instance($cm->id);
-        self::validate_context($context);
 
         $assignment = new assign($context, $cm, null);
 
-        $gradedata = (object)$params['plugindata'];
+        $gradedata = (object)$plugindata;
 
-        $gradedata->addattempt = $params['addattempt'];
-        $gradedata->attemptnumber = $params['attemptnumber'];
-        $gradedata->workflowstate = $params['workflowstate'];
-        $gradedata->applytoall = $params['applytoall'];
-        $gradedata->grade = $params['grade'];
+        $gradedata->addattempt = $addattempt;
+        $gradedata->attemptnumber = $attemptnumber;
+        $gradedata->workflowstate = $workflowstate;
+        $gradedata->applytoall = $applytoall;
+        $gradedata->grade = $grade;
 
-        $assignment->save_grade($params['userid'], $gradedata);
+        $assignment->save_grade($userid, $gradedata);
 
         return null;
     }
@@ -1772,7 +1764,6 @@ class mod_assign_external extends external_api {
 
         $cm = get_coursemodule_from_instance('assign', $assignmentid, 0, false, MUST_EXIST);
         $context = context_module::instance($cm->id);
-        self::validate_context($context);
 
         $assignment = new assign($context, $cm, null);
 

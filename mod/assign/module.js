@@ -45,7 +45,7 @@ M.mod_assign.init_grading_table = function(Y) {
         if (selectall) {
             selectall.on('change', function(e) {
                 if (e.currentTarget.get('checked')) {
-                    checkboxes = Y.all('td.c0 input[type="checkbox"]');
+                    checkboxes = Y.all('td.c0 input');
                     checkboxes.each(function(node) {
                         rowelement = node.get('parentNode').get('parentNode');
                         node.set('checked', true);
@@ -53,7 +53,7 @@ M.mod_assign.init_grading_table = function(Y) {
                         rowelement.addClass('selectedrow');
                     });
                 } else {
-                    checkboxes = Y.all('td.c0 input[type="checkbox"]');
+                    checkboxes = Y.all('td.c0 input');
                     checkboxes.each(function(node) {
                         rowelement = node.get('parentNode').get('parentNode');
                         node.set('checked', false);
@@ -65,39 +65,37 @@ M.mod_assign.init_grading_table = function(Y) {
         }
 
         var batchform = Y.one('form.gradingbatchoperationsform');
-        if (batchform) {
-            batchform.on('submit', function(e) {
-                checkboxes = Y.all('td.c0 input');
-                var selectedusers = [];
-                checkboxes.each(function(node) {
-                    if (node.get('checked')) {
-                        selectedusers[selectedusers.length] = node.get('value');
-                    }
-                });
-
-                operation = Y.one('#id_operation');
-                usersinput = Y.one('input.selectedusers');
-                usersinput.set('value', selectedusers.join(','));
-                if (selectedusers.length == 0) {
-                    alert(M.str.assign.nousersselected);
-                    e.preventDefault();
-                } else {
-                    action = operation.get('value');
-                    prefix = 'plugingradingbatchoperation_';
-                    if (action.indexOf(prefix) == 0) {
-                        pluginaction = action.substr(prefix.length);
-                        plugin = pluginaction.split('_')[0];
-                        action = pluginaction.substr(plugin.length + 1);
-                        confirmmessage = eval('M.str.assignfeedback_' + plugin + '.batchoperationconfirm' + action);
-                    } else {
-                        confirmmessage = eval('M.str.assign.batchoperationconfirm' + operation.get('value'));
-                    }
-                    if (!confirm(confirmmessage)) {
-                        e.preventDefault();
-                    }
+        batchform.on('submit', function(e) {
+            checkboxes = Y.all('td.c0 input');
+            var selectedusers = [];
+            checkboxes.each(function(node) {
+                if (node.get('checked')) {
+                    selectedusers[selectedusers.length] = node.get('value');
                 }
             });
-        }
+
+            operation = Y.one('#id_operation');
+            usersinput = Y.one('input.selectedusers');
+            usersinput.set('value', selectedusers.join(','));
+            if (selectedusers.length == 0) {
+                alert(M.str.assign.nousersselected);
+                e.preventDefault();
+            } else {
+                action = operation.get('value');
+                prefix = 'plugingradingbatchoperation_';
+                if (action.indexOf(prefix) == 0) {
+                    pluginaction = action.substr(prefix.length);
+                    plugin = pluginaction.split('_')[0];
+                    action = pluginaction.substr(plugin.length + 1);
+                    confirmmessage = eval('M.str.assignfeedback_' + plugin + '.batchoperationconfirm' + action);
+                } else {
+                    confirmmessage = eval('M.str.assign.batchoperationconfirm' + operation.get('value'));
+                }
+                if (!confirm(confirmmessage)) {
+                    e.preventDefault();
+                }
+            }
+        });
 
         Y.use('node-menunav', function(Y) {
             var menus = Y.all('.gradingtable .actionmenu');
@@ -114,8 +112,34 @@ M.mod_assign.init_grading_table = function(Y) {
         });
         var quickgrade = Y.all('.gradingtable .quickgrade');
         quickgrade.each(function(quick) {
-            quick.on('change', function(e) {
-                this.get('parentNode').addClass('quickgrademodified');
+            quick.on('change', function(e) {                
+				// RT - Check if value entered is numeric							
+				var regex = /(^-?\d\d*\.\d*$)|(^-?\d\d*$)|(^-?\.\d\d*$)/;
+				
+				// Remove existing rules first
+				this.get('parentNode').removeClass('quickgradeerror');
+				this.get('parentNode').removeClass('quickgrademodified');
+				this.removeClass('grade_err_highlight');
+				
+				if(quick.get('tagName') == "INPUT")
+				{
+					var mark = quick.get('value');	
+				}
+				else // this is the textarea, get the value of input
+				{
+					var mark = quick.previous('input.quickgrade').get('value');
+				}
+				
+				if(mark != '' && !regex.test(mark))
+				{
+					alert('Input Error. Mark should be a number.');
+					this.get('parentNode').addClass('quickgradeerror');	
+					
+					if(quick.get('tagName') == "INPUT")
+						this.addClass('grade_err_highlight');	
+				}								
+				else								
+					this.get('parentNode').addClass('quickgrademodified');
             });
         });
     });
@@ -151,12 +175,11 @@ M.mod_assign.init_grading_options = function(Y) {
                 Y.one('form.gradingoptionsform').submit();
             });
         }
+		/* RT - This option is never shown
         var showonlyactiveenrolelement = Y.one('#id_showonlyactiveenrol');
-        if (showonlyactiveenrolelement) {
-            showonlyactiveenrolelement.on('change', function(e) {
+        showonlyactiveenrolelement.on('change', function(e) {
             Y.one('form.gradingoptionsform').submit();
-            });
-        }
+        });*/
     });
 };
 

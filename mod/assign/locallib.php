@@ -131,9 +131,6 @@ class assign {
     /** @var array list of suspended user IDs in form of ([id1] => id1) */
     public $susers = null;
 
-    /** @var array cached list of participants for this assignment. The cache key will be group, showactive and the context id */
-    private $participants = array();
-
     /**
      * Constructor for the base assign class.
      *
@@ -578,7 +575,13 @@ class assign {
         }
         $update->markingworkflow = $formdata->markingworkflow;
         $update->markingallocation = $formdata->markingallocation;
-
+		
+		// RT - Set markerallocation to no, when markingworkflow is no
+		if($formdata->markingworkflow == 0)
+        {
+			$update->markingallocation = 0;
+        }
+		
         $returnid = $DB->insert_record('assign', $update);
         $this->instance = $DB->get_record('assign', array('id'=>$returnid), '*', MUST_EXIST);
         // Cache the course record.
@@ -912,6 +915,12 @@ class assign {
         }
         $update->markingworkflow = $formdata->markingworkflow;
         $update->markingallocation = $formdata->markingallocation;
+		
+		// RT - Set markerallocation to no, when markingworkflow is no
+		if($formdata->markingworkflow == 0)
+        {
+			$update->markingallocation = 0;
+        }
 
         $result = $DB->update_record('assign', $update);
         $this->instance = $DB->get_record('assign', array('id'=>$update->id), '*', MUST_EXIST);
@@ -1233,8 +1242,12 @@ class assign {
                               maxlength="10"
                               class="quickgrade"/>';
                 $o .= '&nbsp;/&nbsp;' . format_float($this->get_instance()->grade, 2);
+                $o .= '<input type="hidden"
+                              name="grademodified_' . $userid . '"
+                              value="' . $modified . '"/>';
                 return $o;
             } else {
+                $o .= '<input type="hidden" name="grademodified_' . $userid . '" value="' . $modified . '"/>';
                 if ($grade == -1 || $grade === null) {
                     $o .= '-';
                 } else {
@@ -1273,6 +1286,9 @@ class assign {
                     $o .= '<option value="' . $optionid . '" ' . $selected . '>' . $option . '</option>';
                 }
                 $o .= '</select>';
+                $o .= '<input type="hidden" ' .
+                             'name="grademodified_' . $userid . '" ' .
+                             'value="' . $modified . '"/>';
                 return $o;
             } else {
                 $scaleid = (int)$grade;
@@ -1295,26 +1311,22 @@ class assign {
      * @return array List of user records
      */
     public function list_participants($currentgroup, $idsonly) {
-        $key = $this->context->id . '-' . $currentgroup . '-' . $this->show_only_active_users();
-        if (!isset($this->participants[$key])) {
+        if ($idsonly) {
+            $users = get_enrolled_users($this->context, 'mod/assign:submit', $currentgroup, 'u.id', null, null, null,
+                    $this->show_only_active_users());
+        } else {
             $users = get_enrolled_users($this->context, 'mod/assign:submit', $currentgroup, 'u.*', null, null, null,
                     $this->show_only_active_users());
-
-            $cm = $this->get_course_module();
-            $users = groups_filter_users_by_course_module_visible($cm, $users);
-
-            $this->participants[$key] = $users;
         }
 
-        if ($idsonly) {
-            $idslist = array();
-            foreach ($this->participants[$key] as $id => $user) {
-                $idslist[$id] = new stdClass();
-                $idslist[$id]->id = $id;
+        $cm = $this->get_course_module();
+        foreach ($users as $userid => $user) {
+            if (!groups_course_module_visible($cm, $userid)) {
+                unset($users[$userid]);
             }
-            return $idslist;
         }
-        return $this->participants[$key];
+
+        return $users;
     }
 
     /**
@@ -2403,8 +2415,10 @@ class assign {
                     $prefix = str_replace('_', ' ', $groupname . get_string('participant', 'assign'));
                     $prefix = clean_filename($prefix . '_' . $this->get_uniqueid_for_user($userid) . '_');
                 } else {
-                    $prefix = str_replace('_', ' ', $groupname . fullname($student));
-                    $prefix = clean_filename($prefix . '_' . $this->get_uniqueid_for_user($userid) . '_');
+                    // RT - Downloaded filename to contain student ID and name
+                    //$prefix = str_replace('_', ' ', $groupname . fullname($student));
+                    //$prefix = clean_filename($prefix . '_' . $this->get_uniqueid_for_user($userid) . '_');
+					$prefix = clean_filename($student->username . "_" . fullname($student) . "_" .$student->id . "_");
                 }
 
                 if ($submission) {
@@ -2415,8 +2429,8 @@ class assign {
                                 $subtype = $plugin->get_subtype();
                                 $type = $plugin->get_type();
                                 $prefixedfilename = clean_filename($prefix .
-                                                                   $subtype .
-                                                                   '_' .
+                                                                   //$subtype . // RT - don't include part of filename
+                                                                   //'_' .
                                                                    $type .
                                                                    '_' .
                                                                    $zipfilename);
@@ -2480,7 +2494,8 @@ class assign {
             $action,
             $fullurl,
             $info,
-            $this->get_course_module()->id
+            $this->get_course_module()->id,
+            $USER->id
         );
 
         if ($return) {
@@ -3970,9 +3985,7 @@ class assign {
      * @return bool
      */
     protected function gradebook_item_update($submission=null, $grade=null) {
-        global $CFG;
 
-        require_once($CFG->dirroot.'/mod/assign/lib.php');
         // Do not push grade to gradebook if blind marking is active as
         // the gradebook would reveal the students.
         if ($this->is_blind_marking()) {
@@ -4318,7 +4331,8 @@ class assign {
                                                              $assignmentname) {
         global $CFG;
         $formatparams = array('context' => $context->get_course_context());
-        $posthtml  = '<p><font face="sans-serif">' .
+        // RT - Removing font tags
+		$posthtml  = '<p>' .
                      '<a href="' . $CFG->wwwroot . '/course/view.php?id=' . $course->id . '">' .
                      format_string($course->shortname, true, $formatparams) .
                      '</a> ->' .
@@ -4327,10 +4341,10 @@ class assign {
                      '</a> ->' .
                      '<a href="' . $CFG->wwwroot . '/mod/assign/view.php?id=' . $coursemodule->id . '">' .
                      format_string($assignmentname, true, $formatparams) .
-                     '</a></font></p>';
-        $posthtml .= '<hr /><font face="sans-serif">';
+                     '</a></p>';
+        $posthtml .= '<hr />';
         $posthtml .= '<p>' . get_string($messagetype . 'html', 'assign', $info) . '</p>';
-        $posthtml .= '</font><hr />';
+        $posthtml .= '<hr />';
         return $posthtml;
     }
 
@@ -4367,7 +4381,6 @@ class assign {
 
         $info = new stdClass();
         if ($blindmarking) {
-            $userfrom = clone($userfrom);
             $info->username = get_string('participant', 'assign') . ' ' . $uniqueidforuser;
             $userfrom->firstname = get_string('participant', 'assign');
             $userfrom->lastname = $uniqueidforuser;
@@ -4769,8 +4782,8 @@ class assign {
             $record->userid = $userid;
             if ($modified >= 0) {
                 $record->grade = unformat_float(optional_param('quickgrade_' . $record->userid, -1, PARAM_TEXT));
-                $record->workflowstate = optional_param('quickgrade_' . $record->userid.'_workflowstate', false, PARAM_TEXT);
-                $record->allocatedmarker = optional_param('quickgrade_' . $record->userid.'_allocatedmarker', false, PARAM_INT);
+                $record->workflowstate = optional_param('quickgrade_' . $record->userid.'_workflowstate', '', PARAM_TEXT);
+                $record->allocatedmarker = optional_param('quickgrade_' . $record->userid.'_allocatedmarker', '', PARAM_INT);
             } else {
                 // This user was not in the grading table.
                 continue;
@@ -4808,8 +4821,6 @@ class assign {
         foreach ($currentgrades as $current) {
             $modified = $users[(int)$current->userid];
             $grade = $this->get_user_grade($modified->userid, false);
-            // Check to see if the grade column was even visible.
-            $gradecolpresent = optional_param('quickgrade_' . $modified->userid, false, PARAM_INT) !== false;
 
             // Check to see if the outcomes were modified.
             if ($CFG->enableoutcomes) {
@@ -4817,9 +4828,7 @@ class assign {
                     $oldoutcome = $outcome->grades[$modified->userid]->grade;
                     $paramname = 'outcome_' . $outcomeid . '_' . $modified->userid;
                     $newoutcome = optional_param($paramname, -1, PARAM_FLOAT);
-                    // Check to see if the outcome column was even visible.
-                    $outcomecolpresent = optional_param($paramname, false, PARAM_FLOAT) !== false;
-                    if ($outcomecolpresent && ($oldoutcome != $newoutcome)) {
+                    if ($oldoutcome != $newoutcome) {
                         // Can't check modified time for outcomes because it is not reported.
                         $modifiedusers[$modified->userid] = $modified;
                         continue;
@@ -4830,8 +4839,6 @@ class assign {
             // Let plugins participate.
             foreach ($this->feedbackplugins as $plugin) {
                 if ($plugin->is_visible() && $plugin->is_enabled() && $plugin->supports_quickgrading()) {
-                    // The plugins must handle is_quickgrading_modified correctly - ie
-                    // handle hidden columns.
                     if ($plugin->is_quickgrading_modified($modified->userid, $grade)) {
                         if ((int)$current->lastmodified > (int)$modified->lastmodified) {
                             return get_string('errorrecordmodified', 'assign');
@@ -4852,14 +4859,10 @@ class assign {
             if ($current->grade !== null) {
                 $current->grade = floatval($current->grade);
             }
-            $gradechanged = $gradecolpresent && $current->grade !== $modified->grade;
-            $markingallocationchanged = $this->get_instance()->markingallocation &&
-                                            ($modified->allocatedmarker !== false) &&
-                                            ($current->allocatedmarker != $modified->allocatedmarker);
-            $workflowstatechanged = $this->get_instance()->markingworkflow &&
-                                            ($modified->workflowstate !== false) &&
-                                            ($current->workflowstate != $modified->workflowstate);
-            if ($gradechanged || $markingallocationchanged || $workflowstatechanged) {
+            if ($current->grade !== $modified->grade ||
+                 ($this->get_instance()->markingallocation && $current->allocatedmarker != $modified->allocatedmarker ) ||
+                 ($this->get_instance()->markingworkflow && $current->workflowstate !== $modified->workflowstate )) {
+
                 // Grade changed.
                 if ($this->grading_disabled($modified->userid)) {
                     continue;
@@ -4884,7 +4887,6 @@ class assign {
             $flags = $this->get_user_flags($userid, true);
             $grade->grade= grade_floatval(unformat_float($modified->grade));
             $grade->grader= $USER->id;
-            $gradecolpresent = optional_param('quickgrade_' . $userid, false, PARAM_INT) !== false;
 
             // Save plugins data.
             foreach ($this->feedbackplugins as $plugin) {
@@ -4898,28 +4900,15 @@ class assign {
                 }
             }
 
-            // These will be set to false if they are not present in the quickgrading
-            // form (e.g. column hidden).
-            $workflowstatemodified = ($modified->workflowstate !== false) &&
-                                        ($flags->workflowstate != $modified->workflowstate);
+            if ($flags->workflowstate != $modified->workflowstate ||
+                $flags->allocatedmarker != $modified->allocatedmarker) {
 
-            $allocatedmarkermodified = ($modified->allocatedmarker !== false) &&
-                                        ($flags->allocatedmarker != $modified->allocatedmarker);
-
-            if ($workflowstatemodified) {
                 $flags->workflowstate = $modified->workflowstate;
-            }
-            if ($allocatedmarkermodified) {
                 $flags->allocatedmarker = $modified->allocatedmarker;
-            }
-            if ($workflowstatemodified || $allocatedmarkermodified) {
                 $this->update_user_flags($flags);
             }
             $this->update_grade($grade);
-            // Allow teachers to skip sending notifications.
-            if (optional_param('sendstudentnotifications', true, PARAM_BOOL)) {
-                $this->notify_grade_modified($grade);
-            }
+            $this->notify_grade_modified($grade);
 
             // Save outcomes.
             if ($CFG->enableoutcomes) {
@@ -4927,10 +4916,8 @@ class assign {
                 foreach ($modified->gradinginfo->outcomes as $outcomeid => $outcome) {
                     $oldoutcome = $outcome->grades[$modified->userid]->grade;
                     $paramname = 'outcome_' . $outcomeid . '_' . $modified->userid;
-                    // This will be false if the input was not in the quickgrading
-                    // form (e.g. column hidden).
-                    $newoutcome = optional_param($paramname, false, PARAM_INT);
-                    if ($newoutcome !== false && ($oldoutcome != $newoutcome)) {
+                    $newoutcome = optional_param($paramname, -1, PARAM_INT);
+                    if ($oldoutcome != $newoutcome) {
                         $data[$outcomeid] = $newoutcome;
                     }
                 }
@@ -5562,7 +5549,8 @@ class assign {
                 if (!$gradingdisabled) {
                     $gradingelement = $mform->addElement('text', 'grade', $name);
                     $mform->addHelpButton('grade', 'gradeoutofhelp', 'assign');
-                    $mform->setType('grade', PARAM_RAW);
+                    $mform->setType('grade', PARAM_FLOAT); // RT - value should be numeric
+					$mform->addRule('grade', null, 'numeric', null, 'client'); // RT - Numeric validation
                 } else {
                     $mform->addElement('hidden', 'grade', $name);
                     $mform->hardFreeze('grade');
@@ -5713,8 +5701,6 @@ class assign {
                 $mform->setDefault('addattempt', 0);
             }
         }
-        $mform->addElement('selectyesno', 'sendstudentnotifications', get_string('sendstudentnotifications', 'assign'));
-        $mform->setDefault('sendstudentnotifications', 1);
 
         $mform->addElement('hidden', 'action', 'submitgrade');
         $mform->setType('action', PARAM_ALPHA);
@@ -6211,11 +6197,7 @@ class assign {
             }
         }
         $this->update_grade($grade);
-        // Note the default if not provided for this option is true (e.g. webservices).
-        // This is for backwards compatibility.
-        if (!isset($formdata->sendstudentnotifications) || $formdata->sendstudentnotifications) {
-            $this->notify_grade_modified($grade);
-        }
+        $this->notify_grade_modified($grade);
 
         $addtolog = $this->add_to_log('grade submission', $this->format_grade_for_log($grade), '', true);
         $params = array(

@@ -126,12 +126,29 @@ class assign_submission_file extends assign_submission_plugin {
      * @return array
      */
     private function get_file_options() {
-        $fileoptions = array('subdirs'=>1,
+        $fileoptions = array('subdirs'=>0, // RT - We do not want folders to be created
                                 'maxbytes'=>$this->get_config('maxsubmissionsizebytes'),
                                 'maxfiles'=>$this->get_config('maxfilesubmissions'),
                                 'accepted_types'=>'*',
                                 'return_types'=>FILE_INTERNAL);
-        return $fileoptions;
+        
+		// RT - if turnitin plagiarism plugin is enabled then only allow these file types		
+		global $CFG, $DB;		
+		$accepted_files = array('.txt', '.pdf', '.doc', '.docx', '.wpd', '.eps', '.html', '.htm', '.rtf');
+		
+		// get tii setting for this assignment
+		$assigninst = $this->assignment->get_context()->instanceid;		
+		$record = $DB->get_record('plagiarism_turnitin_config', array('cm' => $assigninst, 'name' => 'use_turnitin'));
+		
+		if((isset($CFG->enableplagiarism) && !empty($record)) && $CFG->enableplagiarism && $record->value)
+		{
+			$fileoptions = array('subdirs'=>0, // RT - We do not want folders to be created
+                                'maxbytes'=>$this->get_config('maxsubmissionsizebytes'),
+                                'maxfiles'=>$this->get_config('maxfilesubmissions'),
+                                'accepted_types'=>$accepted_files,
+                                'return_types'=>FILE_INTERNAL);
+		}
+		return $fileoptions;
     }
 
     /**
