@@ -112,8 +112,8 @@ class phpunit_util extends testing_util {
         // Stop any message redirection.
         phpunit_util::stop_event_redirection();
 
-        // Release memory and indirectly call destroy() methods to release resource handles, etc.
-        gc_collect_cycles();
+        // We used to call gc_collect_cycles here to ensure desctructors were called between tests.
+        // This accounted for 25% of the total time running phpunit - so we removed it.
 
         // Show any unhandled debugging messages, the runbare() could already reset it.
         self::display_debugging_messages();
@@ -409,6 +409,9 @@ class phpunit_util extends testing_util {
         $options['fullname'] = 'PHPUnit test site';
 
         install_cli_database($options, false);
+
+        // Disable all logging for performance and sanity reasons.
+        set_config('enabled_stores', '', 'tool_log');
 
         // We need to keep the installed dataroot filedir files.
         // So each time we reset the dataroot before running a test, the default files are still installed.

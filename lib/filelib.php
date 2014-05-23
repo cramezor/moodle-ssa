@@ -541,7 +541,7 @@ function file_get_draft_area_info($draftitemid, $filepath = '/') {
  * @param int $newfilesize the size that would be added to the current area.
  * @param bool $includereferences true to include the size of the references in the area size.
  * @return bool true if the area will/has exceeded its limit.
- * @since 2.4
+ * @since Moodle 2.4
  */
 function file_is_draft_area_limit_reached($draftitemid, $areamaxbytes, $newfilesize = 0, $includereferences = false) {
     if ($areamaxbytes != FILE_AREA_MAX_BYTES_UNLIMITED) {
@@ -1410,6 +1410,9 @@ function &get_mimetypes_array() {
         'dmg'  => array ('type'=>'application/octet-stream', 'icon'=>'unknown'),
 
         'doc'  => array ('type'=>'application/msword', 'icon'=>'document', 'groups'=>array('document')),
+        'bdoc' => array ('type'=>'application/x-digidoc', 'icon'=>'document', 'groups'=>array('archive')),
+        'cdoc' => array ('type'=>'application/x-digidoc', 'icon'=>'document', 'groups'=>array('archive')),
+        'ddoc' => array ('type'=>'application/x-digidoc', 'icon'=>'document', 'groups'=>array('archive')),
         'docx' => array ('type'=>'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'icon'=>'document', 'groups'=>array('document')),
         'docm' => array ('type'=>'application/vnd.ms-word.document.macroEnabled.12', 'icon'=>'document'),
         'dotx' => array ('type'=>'application/vnd.openxmlformats-officedocument.wordprocessingml.template', 'icon'=>'document'),
@@ -2675,7 +2678,7 @@ function fulldelete($location) {
  */
 function byteserving_send_file($handle, $mimetype, $ranges, $filesize) {
     // better turn off any kind of compression and buffering
-    @ini_set('zlib.output_compression', 'Off');
+    ini_set('zlib.output_compression', 'Off');
 
     $chunksize = 1*(1024*1024); // 1MB chunks - must be less than 2MB!
     if ($handle === false) {
@@ -2696,7 +2699,7 @@ function byteserving_send_file($handle, $mimetype, $ranges, $filesize) {
 
         fseek($handle, $ranges[0][1]);
         while (!feof($handle) && $length > 0) {
-            @set_time_limit(60*60); //reset time limit to 60 min - should be enough for 1 MB chunk
+            core_php_time_limit::raise(60*60); //reset time limit to 60 min - should be enough for 1 MB chunk
             $buffer = fread($handle, ($chunksize < $length ? $chunksize : $length));
             echo $buffer;
             flush();
@@ -2725,7 +2728,7 @@ function byteserving_send_file($handle, $mimetype, $ranges, $filesize) {
             echo $range[0];
             fseek($handle, $range[1]);
             while (!feof($handle) && $length > 0) {
-                @set_time_limit(60*60); //reset time limit to 60 min - should be enough for 1 MB chunk
+                core_php_time_limit::raise(60*60); //reset time limit to 60 min - should be enough for 1 MB chunk
                 $buffer = fread($handle, ($chunksize < $length ? $chunksize : $length));
                 echo $buffer;
                 flush();
@@ -2927,7 +2930,7 @@ class curl {
         }
 
         if (!isset($this->emulateredirects)) {
-            $this->emulateredirects = (ini_get('open_basedir') or ini_get('safe_mode'));
+            $this->emulateredirects = ini_get('open_basedir');
         }
     }
 
