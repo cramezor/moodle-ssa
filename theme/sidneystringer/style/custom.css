@@ -1,0 +1,121 @@
+/* Custom CSS
+-------------------------*/
+@media (min-width: 980px){
+	body {padding:100px 20px 20px 20px}
+	#page {width:97%;}
+	.nav-collapse.collapse {top: 60px;}
+}
+
+@media (max-width: 979px){
+	body{padding-left:0;padding-right:0}
+	.navbar-fixed-top{margin-bottom:0;}
+	
+}
+@media (max-width: 767px) {
+	.navbar-fixed-top, .navbar-fixed-bottom, .navbar-static-top{margin-left: 0;margin-right: 0}
+	#region-main.span8 {width:100%!important}
+}
+
+body {background-color:#44B6AC;font-family: open sans, sans-serif}
+#page{background-color:#FFFFFF;padding:20px}
+a {color: #44B6AC}
+a:hover, a:focus {color: #296D67}
+a.logo {
+    /*background: url([[setting:logo]]) no-repeat 0 0;*/
+    display: block;
+    float: left;
+    height: 80px;
+    width: 160px;
+    margin: 10px;
+    padding: 0;
+}
+
+h1 {font-size: 20px}
+h2 {font-size: 18px}
+h3 {font-size: 16px}
+
+
+input.form-submit,input#id_submitbutton,input#id_submitbutton2,.path-admin .buttons input[type="submit"],td.submit input {
+    background-color:#006dcc;
+    *background-color:#04c;
+    background-image:-moz-linear-gradient(top,#7CCCC5,#307F78);
+    background-image:-webkit-gradient(linear,0 0,0 100%,from(#7CCCC5),to(#307F78));
+    background-image:-webkit-linear-gradient(top,#7CCCC5,#307F78);
+    background-image:-o-linear-gradient(top,#7CCCC5,#307F78);
+    background-image:linear-gradient(to bottom,#7CCCC5,#307F78);
+    background-repeat:repeat-x;
+    border-color:#04c #04c #002a80;
+    border-color:rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc',endColorstr='#ff0044cc',GradientType=0);
+    filter:progid:DXImageTransform.Microsoft.gradient(enabled=false)
+}
+
+input.form-submit:hover,input#id_submitbutton:hover,input#id_submitbutton2:hover,.path-admin .buttons input[type="submit"]:hover,td.submit input:hover,input.form-submit:focus,input#id_submitbutton:focus,input#id_submitbutton2:focus,.path-admin .buttons input[type="submit"]:focus,td.submit input:focus,input.form-submit:active,input#id_submitbutton:active,input#id_submitbutton2:active,.path-admin .buttons input[type="submit"]:active,td.submit input:active,input.form-submit.active,input#id_submitbutton.active,input#id_submitbutton2.active,.path-admin .buttons input[type="submit"].active,td.submit input.active,input.form-submit.disabled,input#id_submitbutton.disabled,input#id_submitbutton2.disabled,.path-admin .buttons input[type="submit"].disabled,td.submit input.disabled,input.form-submit[disabled],input#id_submitbutton[disabled],input#id_submitbutton2[disabled],.path-admin .buttons input[type="submit"][disabled],td.submit input[disabled] {
+    color:#fff;
+    background-color:#296D67;
+    *background-color:#296D67;
+}
+
+input.form-submit:active,input#id_submitbutton:active,input#id_submitbutton2:active,.path-admin .buttons input[type="submit"]:active,td.submit input:active,input.form-submit.active,input#id_submitbutton.active,input#id_submitbutton2.active,.path-admin .buttons input[type="submit"].active,td.submit input.active {
+    background-color:#143734
+}
+
+.coursebox>.info>.name, .coursebox .content .teachers, .coursebox .content .courseimage, .coursebox .content .coursefile {width: auto}
+
+.mform .fitem .felement {
+	margin-left: 0;
+}
+/* Various visual tweeks*/
+.ctopics li {border-bottom:none!important;}
+.fitem_editor .fitemtitle {display:none}
+.form-item .form-label, .mform .fitem div.fitemtitle {padding-right:15px}
+#page-mod-quiz-edit .questionbankwindow.block div.header {color:#666666}
+.checklistreport .cell.reportheading {background-color:#999999!important}
+.checklistreport .cell.level1-checked{background-color:#5CD85C!important}
+.checklistreport .cell.level1-unchecked{background-color:#FF5C5C!important}
+.mform span.error {display:inline!important}
+
+/* Collapsed Topic indent when editing */
+body.format-topcoll .ctopics .section .activity .mod-indent-outer {padding-left: 32px}
+.course-content ul.ctopics li.section .right .tceditsection {float: none;}
+body.format-topcoll .course-content ul.ctopics li.section .summary {margin-left: 25px;}
+body.format-topcoll .course-content ul li.section .left, .course-content ul.topics li.section .right {left:0!important;}
+
+/* Page colours */
+#page {background-color: #FDFDFD;}
+.course-content ul li.section .content {background-color: #FFFFFF; border: #ddd 1px solid;}
+.course-content ul li.section {border-bottom: none!important;}
+.course-content ul li.section {padding: 10px 0!important;}
+.block {background-color: #fafafa;}
+.course-content .current {background-color: #EEEEEE;}
+.course-content ul li.section .content .toggle{-moz-border-radius: 0!important; -webkit-border-radius: 0!important; border-radius: 0!important; }
+.course-content ul li.section .left, .course-content ul.topics li.section .right{position:relative;left:-10px}
+.course-content ul.topics li.section .summary {margin-right:25px;}
+
+/* Feedback module */
+.feedback_item_box_left{padding-bottom:10px} .feedback_item_number_left {padding-right:5px;}
+.feedback_item_label_left {text-decoration: underline;}
+
+/* Calendar */
+.event .calendar_event_course {background-color:transparent}
+
+/* Grading + icons */
+th img{max-width:none}
+
+/* Forum reply */
+.forumpost .options .commands {text-align:left;}
+.forumpost .options .commands a{
+background-image: linear-gradient(rgb(124, 204, 197), rgb(48, 127, 120));
+color:#FFFFFF;
+border-radius:4px;
+vertical-align: middle;
+padding: 4px 10px;
+font-size: 14px;
+border: 1px solid rgb(48, 127, 120);
+}
+
+
+
+/* Custom CSS Settings
+-------------------------*/
+[[setting:customcss]]

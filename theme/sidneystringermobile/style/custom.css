@@ -1,0 +1,82 @@
+/* Custom CSS
+-------------------------*/
+.navbar-fixed-top, .navbar-static-top{margin-left: 0;margin-right: 0;position: fixed;}
+
+
+body {font-family: open sans, sans-serif}
+#page{background-color:#FFFFFF;padding:20px;}
+#page-content, #login-page-content{
+    background-color:#FFFFFF;
+    padding: 10px;
+    position: absolute;
+    top:75px;
+}
+.snap-drawer{top:85px!important;background-color:#44B6AC;}
+.btn-navbar {
+    float: left!important;
+    display: block!important;
+	clear: left;
+}
+.nav-collapse {
+    height: auto!important;
+}
+
+.block {
+    margin: 10px 10px 20px 10px;
+}
+.block .list li {
+	padding: 5px 0;
+	font-weight: bold;
+	border-top: 1px solid #ddd;
+}
+a {color: #44B6AC}
+a:hover, a:focus {color: #296D67}
+.logo {
+    /*background: url([[setting:logo]]) no-repeat 0 0;*/
+    display: block;
+    float: left;
+    height: 30px;
+    width: 300px;
+    margin: 10px 10px 0px;
+    padding: 0;
+}
+
+h1 {font-size: 20px}
+h2 {font-size: 18px}
+h3 {font-size: 16px}
+
+
+input.form-submit,input#id_submitbutton,input#id_submitbutton2,.path-admin .buttons input[type="submit"],td.submit input {
+    background-color:#006dcc;
+    *background-color:#04c;
+    background-image:-moz-linear-gradient(top,#7CCCC5,#307F78);
+    background-image:-webkit-gradient(linear,0 0,0 100%,from(#7CCCC5),to(#307F78));
+    background-image:-webkit-linear-gradient(top,#7CCCC5,#307F78);
+    background-image:-o-linear-gradient(top,#7CCCC5,#307F78);
+    background-image:linear-gradient(to bottom,#7CCCC5,#307F78);
+    background-repeat:repeat-x;
+    border-color:#04c #04c #002a80;
+    border-color:rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc',endColorstr='#ff0044cc',GradientType=0);
+    filter:progid:DXImageTransform.Microsoft.gradient(enabled=false)
+}
+
+input.form-submit:hover,input#id_submitbutton:hover,input#id_submitbutton2:hover,.path-admin .buttons input[type="submit"]:hover,td.submit input:hover,input.form-submit:focus,input#id_submitbutton:focus,input#id_submitbutton2:focus,.path-admin .buttons input[type="submit"]:focus,td.submit input:focus,input.form-submit:active,input#id_submitbutton:active,input#id_submitbutton2:active,.path-admin .buttons input[type="submit"]:active,td.submit input:active,input.form-submit.active,input#id_submitbutton.active,input#id_submitbutton2.active,.path-admin .buttons input[type="submit"].active,td.submit input.active,input.form-submit.disabled,input#id_submitbutton.disabled,input#id_submitbutton2.disabled,.path-admin .buttons input[type="submit"].disabled,td.submit input.disabled,input.form-submit[disabled],input#id_submitbutton[disabled],input#id_submitbutton2[disabled],.path-admin .buttons input[type="submit"][disabled],td.submit input[disabled] {
+    color:#fff;
+    background-color:#296D67;
+    *background-color:#296D67;
+}
+
+input.form-submit:active,input#id_submitbutton:active,input#id_submitbutton2:active,.path-admin .buttons input[type="submit"]:active,td.submit input:active,input.form-submit.active,input#id_submitbutton.active,input#id_submitbutton2.active,.path-admin .buttons input[type="submit"].active,td.submit input.active {
+    background-color:#143734
+}
+
+.coursebox>.info>.name, .coursebox .content .teachers, .coursebox .content .courseimage, .coursebox .content .coursefile {width: auto}
+
+.mform .fitem .felement {
+	margin-left: 0;
+}
+
+/* Custom CSS Settings
+-------------------------*/
+[[setting:customcss]]
