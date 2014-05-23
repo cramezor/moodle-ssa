@@ -14,16 +14,18 @@ if (empty($_COOKIE[$cookiename])) {
     <center> 
     <p>SSA-VLE uses your Sidney Stringer Academy Google Apps account to log in.</p>
     <br/>
+    <p class="well">You need to type in your <strong>username</strong> followed by:
+    <span class="alert alert-info">@students.sidneystringeracademy.org.uk</span></p>
     <div style="width:'1%'">
       <?php
         $displayprovider = ((empty($authprovider) || $authprovider == 'google' || $allauthproviders) && get_config('auth/googleoauth2', 'googleclientid'));
         $providerdisplaystyle = $displayprovider?'display:inline-block;':'display:none;';
       ?>
       <div class="signinprovider" style="<?php echo $providerdisplaystyle; ?>">
-        <a href="https://accounts.google.com/o/oauth2/auth?hd=students.sidneystringeracademy.org.uk&client_id=<?php echo get_config('auth/googleoauth2', 'googleclientid'); ?>&redirect_uri=<?php echo $CFG->wwwroot; ?>/auth/googleoauth2/google_redirect.php&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&response_type=code" class="login google g-button g-button-submit">Student</a>
+        <a href="https://accounts.google.com/ServiceLogin?Email=@students.sidneystringeracademy.org.uk&continue=https%3A%2F%2Faccounts.google.com%2Fo%2Foauth2%2Fauth%3Fresponse_type%3Dcode%26scope%3Dhttps%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile%2Bhttps%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%26redirect_uri%3D<?php echo $CFG->wwwroot; ?>%2Fauth%2Fgoogleoauth2%2Fgoogle_redirect.php%26client_id%3D<?php echo get_config('auth/googleoauth2', 'googleclientid'); ?>%26hl%3Den-GB%26from_login%3D1%26as%3D3ccb08cbe1cdfa65&ltmpl=popup&service=lso&sacu=1&hd=sidneystringeracademy.org.uk" class="login google g-button g-button-submit">Student</a>
       </div>
       <div class="signinprovider" style="<?php echo $providerdisplaystyle; ?>">
-        <a href="https://accounts.google.com/o/oauth2/auth?hd=sidneystringeracademy.org.uk&client_id=<?php echo get_config('auth/googleoauth2', 'googleclientid'); ?>&redirect_uri=<?php echo $CFG->wwwroot; ?>/auth/googleoauth2/google_redirect.php&scope=https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email&response_type=code" class="login google g-button g-button-submit">Staff</a>
+        <a href="https://accounts.google.com/ServiceLogin?Email=@sidneystringeracademy.org.uk&continue=https%3A%2F%2Faccounts.google.com%2Fo%2Foauth2%2Fauth%3Fresponse_type%3Dcode%26scope%3Dhttps%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.profile%2Bhttps%3A%2F%2Fwww.googleapis.com%2Fauth%2Fuserinfo.email%26redirect_uri%3D<?php echo $CFG->wwwroot; ?>%2Fauth%2Fgoogleoauth2%2Fgoogle_redirect.php%26hd%3Dsidneystringeracademy.org.uk%26client_id%3D<?php echo get_config('auth/googleoauth2', 'googleclientid'); ?>%26hl%3Den-GB%26from_login%3D1%26as%3D3ccb08cbe1cdfa65&ltmpl=popup&service=lso&sacu=1&hd=sidneystringeracademy.org.uk" class="login google g-button g-button-submit">Staff</a>
       </div>
     </div>
     </center>
