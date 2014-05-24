@@ -259,7 +259,7 @@ function assign_get_coursemodule_info($coursemodule) {
     global $CFG, $DB;
 
     $dbparams = array('id'=>$coursemodule->instance);
-    $fields = 'id, name, alwaysshowdescription, allowsubmissionsfromdate, intro, introformat';
+    $fields = 'id, name, alwaysshowdescription, allowsubmissionsfromdate, intro, introformat, duedate, displayduedate';
     if (! $assignment = $DB->get_record('assign', $dbparams, $fields)) {
         return false;
     }
@@ -272,6 +272,14 @@ function assign_get_coursemodule_info($coursemodule) {
             $result->content = format_module_intro('assign', $assignment, $coursemodule->id, false);
         }
     }
+
+    if (($assignment->duedate > 0) && ($assignment->displayduedate)) {
+        if (empty($result->content)) {
+            $result->content = '';
+        }
+        $result->content .= html_writer::tag('p', get_string('duedate', 'assign') . ': ' . userdate($assignment->duedate));
+    }
+
     return $result;
 }
 
