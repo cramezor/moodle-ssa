@@ -85,7 +85,7 @@ input.form-submit:active,input#id_submitbutton:active,input#id_submitbutton2:act
 body.format-topcoll .ctopics .section .activity .mod-indent-outer {padding-left: 32px}
 .course-content ul.ctopics li.section .right .tceditsection {float: none;}
 body.format-topcoll .course-content ul.ctopics li.section .summary {margin-left: 25px;}
-body.format-topcoll .course-content ul li.section .left, .course-content ul.topics li.section .right {left:0!important;}
+/*body.format-topcoll .course-content ul li.section .left, .course-content ul.topics li.section .right {left:0!important;}*/
 .jsenabled .toggle {background:none!important;}
 .jsenabled .block_grade_me .toggle {background: transparent url('/theme/image.php?theme=sidneystringer&component=block_grade_me&image=closed') no-repeat 50% 50%!important;}
 
