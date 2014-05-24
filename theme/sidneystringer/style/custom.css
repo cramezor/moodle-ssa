@@ -71,15 +71,23 @@ input.form-submit:active,input#id_submitbutton:active,input#id_submitbutton2:act
 .form-item .form-label, .mform .fitem div.fitemtitle {padding-right:15px}
 #page-mod-quiz-edit .questionbankwindow.block div.header {color:#666666}
 .checklistreport .cell.reportheading {background-color:#999999!important}
-.checklistreport .cell.level1-checked{background-color:#5CD85C!important}
+/*.checklistreport .cell.level1-checked{background-color:#5CD85C!important}*/
 .checklistreport .cell.level1-unchecked{background-color:#FF5C5C!important}
+.checklistreport .cell.level0-checked {background-color: #BBFFBB!important;}
+.checklistreport .cell.level1-checked {background-color: #BBFFBB!important;}
+.checklistreport .cell.level1 {background-color: #EEEEEE;}
 .mform span.error {display:inline!important}
+.path-mod-feedback .generalbox div table tbody img {height: 100%;}
+.block_messages .content .footer {display: none;}
+
 
 /* Collapsed Topic indent when editing */
 body.format-topcoll .ctopics .section .activity .mod-indent-outer {padding-left: 32px}
 .course-content ul.ctopics li.section .right .tceditsection {float: none;}
 body.format-topcoll .course-content ul.ctopics li.section .summary {margin-left: 25px;}
 body.format-topcoll .course-content ul li.section .left, .course-content ul.topics li.section .right {left:0!important;}
+.jsenabled .toggle {background:none!important;}
+.jsenabled .block_grade_me .toggle {background: transparent url('/theme/image.php?theme=sidneystringer&component=block_grade_me&image=closed') no-repeat 50% 50%!important;}
 
 /* Page colours */
 #page {background-color: #FDFDFD;}
@@ -91,6 +99,7 @@ body.format-topcoll .course-content ul li.section .left, .course-content ul.topi
 .course-content ul li.section .content .toggle{-moz-border-radius: 0!important; -webkit-border-radius: 0!important; border-radius: 0!important; }
 .course-content ul li.section .left, .course-content ul.topics li.section .right{position:relative;left:-10px}
 .course-content ul.topics li.section .summary {margin-right:25px;}
+.course-content .current {background-color: #44B6AC;}
 
 /* Feedback module */
 .feedback_item_box_left{padding-bottom:10px} .feedback_item_number_left {padding-right:5px;}
