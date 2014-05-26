@@ -250,6 +250,10 @@ td.submissioneditable {
 }
 
 
+#page-mod-assign-view .mod-assign-history-panel .c0 {
+    width: 150px;
+}
+
 #page-mod-assign-view .submissionsummarytable .c0,
 #page-mod-assign-view .mod-assign-history-panel .c0 {
     width: 150px;
@@ -266,3 +270,283 @@ td.submissioneditable {
 #page-mod-assign-view .gradingtable .menu-action img {
     display: none;
 }
+
+/* RT - Custom styles */
+.assigntitle, 
+.quickcomment,
+#page-mod-assign-view .yui3-menu-label
+{
+	font-weight:bold;
+	color: #666;
+	border-bottom: 1px solid #eee;
+	margin: 5px 0;
+	padding-top:3px;
+}
+
+#page-mod-assign-view .flexible th.header.c5
+{
+    min-width: 50px !important; /* RT - TODO: there should be better way than to force this */
+	
+}
+
+#page-mod-assign-view .flexible td.ygtvcontent
+{
+	white-space:nowrap;	
+}
+
+/* assign */
+.submissionlinks img:hover
+{
+	background:transparent;
+	border: none;
+}
+
+.userpicture
+{
+ padding-right: 5px;
+}
+
+.useridnumber
+{
+	font-size: 8pt;
+	font-style: italic;
+}
+
+#page-mod-assignment-submissions .flexible th,
+#page-mod-assign-view .flexible th,
+#participants.flexible th
+{
+	white-space:normal;
+}
+
+#page-mod-assign-view .flexible
+{
+	font-size:0.9em;
+}
+
+/* fullname */
+#page-mod-assign-view .flexible th.header.c1
+{
+	min-width:130px;
+}
+
+#page-mod-assign-view .flexible th.header.c2
+{
+	min-width:200px;
+	max-width:400px;
+}
+
+/* Feedback */
+#page-mod-assign-view .flexible th.header.c4 /*may change col*/
+{
+	min-width:200px;
+}
+
+#page-mod-assign-view .flexible tr.ygtvrow
+{
+	/*white-space:nowrap;*/
+}
+
+#page-mod-assign-view .flexible tr.ygtvrow a
+{
+	white-space:normal;
+}
+
+#id_grade
+{
+	width:80px;
+}
+
+
+
+#page-mod-assign-view textarea.quickgrade
+{
+	font-size:10pt;
+	margin:0;
+	height:55px;
+}
+
+#page-mod-assign-view input.quickgrade
+{
+	width: 40px;
+	padding: 2px;
+	border: 1px solid #3AA040;
+	font-size:10pt;
+}
+
+#page-mod-assign-view input.quickgrade:hover, #page-mod-assign-view input.quickgrade:focus,
+#page-mod-assign-view textarea.quickgrade:hover, #page-mod-assign-view textarea.quickgrade:focus
+{
+	border: 1px solid #FF9C1F;
+	box-shadow:1px 1px 3px #aaa;
+	-moz-box-shadow:1px 1px 3px #aaa;
+	-webkit-box-shadow:1px 1px 3px #aaa;
+}
+
+.submissiondate
+{
+	font-size:8pt;
+	font-style:italic;
+	text-align:right;
+	margin: 5px 1px 0px 10px;
+	padding: 2px 7px;
+	background: #EFEFEF;
+	border: 1px solid #ddd;
+}
+
+.quickcomment
+{
+	margin: 7px 0 3px 0;
+	font-size:9pt;
+}
+
+.hrbreak
+{
+	border: 0;
+	height: 1px;
+	background: #ddd;
+}
+
+#page-mod-assign-view .menuicon
+{
+	width:100px;
+}
+
+#page-mod-assign-view .menuicon .yui3-menuitem
+{
+	background: #B2E0E4;
+}
+
+.usersummary
+{
+	border: 1px solid #ddd;
+	padding: 5px;
+	max-width:400px;
+	height: 35px;
+	background:#EFEFCF;
+	margin:15px 0 20px 0 !important;
+}
+
+#page-mod-assign-popup #page
+{
+	 padding: 20px;
+	 margin:0;
+	 background:#fff;
+}
+
+/* Don't show Back button here */
+#page-mod-assign-popup #page div.singlebutton input[type="submit"]
+{
+	display:none;
+}
+
+#page-mod-assign-popup .submissionfull
+{
+	padding: 10px 30px;
+	border: 1px solid #eee;
+}
+
+
+span#id_error_grade,
+span#id_error_phone2x,
+#page-mod-assign-view span.error,
+.grade_err_highlight
+{
+	background: #F03D25;
+	border: 1px solid #C0311E;
+	color: #fff;
+	padding: 1px 10px;
+	line-height: 200%;
+}
+
+#page-mod-assign-view div.gradingtable tr .quickgradeerror,
+#page-mod-assign-view .notifyproblem,
+#page-grade-grading-manage .notifyproblem,
+#page-grade-grading-form-rubric-edit .error
+{
+	background-color: #FFBABA;
+	border: 1px solid #C0311E;
+	padding: 3px;
+}
+
+#page-mod-assign-view .submithelp
+ {
+	border: 1px solid #ddd;
+	padding: 3px 15px;
+	margin: 5px 10px;
+	width:70%;
+	background:#DFF0D8;
+	
+	border-radius:3px;
+	-moz-border-radius:3px;
+	-webkit-border-radius:3px;
+}
+
+#notice
+{
+	border: 1px solid #E2C822;
+	padding: 5px 15px;
+	margin:0 10%;
+
+	background:#FFF9D7;
+}
+
+#page-mod-assign-view .singlebutton
+{
+	padding: 3px 25%;
+	text-align:left;
+}
+
+.mgtotalscore
+{
+	text-align:right;
+	padding: 3px 20px;
+	border-bottom:2px solid #ccc;
+	font-weight:bold;
+	font-size: 1.1em;
+}
+
+div.grademark
+{
+	float:left;
+	margin: 0px 5px;
+}
+
+#page-mod-assign-view .flexible td.ygtvcontent
+{
+	max-width:380px;
+	white-space: normal;
+	word-break:break-all;
+}
+
+#page-mod-assign-view .notifyproblem,
+#page-mod-assign-view .notifysuccess
+{
+	white-space: normal;
+	text-align:left;
+	padding: 2px;
+	font-size:1em;
+}
+
+#page-mod-assign-view .notifysuccess
+{
+	padding-left: 30px;
+}
+
+.jsenabled .moodle-actionmenu[data-enhance] .toggle-display.textmenu
+{
+	padding-left:0!important;
+	margin-left:0!important;
+}
+
+#page-mod-assign-view .c3 img
+{
+	padding-right: 5px;
+}
+
+/* Submission status colours */
+.gradingstatus 
+{
+	padding-top:10px;
+}
+

@@ -605,6 +605,12 @@ class assign {
         $update->markingworkflow = $formdata->markingworkflow;
         $update->markingallocation = $formdata->markingallocation;
 
+	// RT - Set markerallocation to no, when markingworkflow is no
+	if($formdata->markingworkflow == 0)
+        {
+		$update->markingallocation = 0;
+        }
+
         $returnid = $DB->insert_record('assign', $update);
         $this->instance = $DB->get_record('assign', array('id'=>$returnid), '*', MUST_EXIST);
         // Cache the course record.
@@ -952,6 +958,12 @@ class assign {
         }
         $update->markingworkflow = $formdata->markingworkflow;
         $update->markingallocation = $formdata->markingallocation;
+
+	// RT - Set markerallocation to no, when markingworkflow is no
+	if($formdata->markingworkflow == 0)
+        {
+		$update->markingallocation = 0;
+        }
 
         $result = $DB->update_record('assign', $update);
         $this->instance = $DB->get_record('assign', array('id'=>$update->id), '*', MUST_EXIST);

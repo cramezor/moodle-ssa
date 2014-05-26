@@ -265,26 +265,29 @@ class mod_assign_renderer extends plugin_renderer_base {
         $t = new html_table();
 
         // Status.
+	$img = $this->output->pix_icon('i/users', '', '', array('class'=>'icon'));	// RT
         if ($summary->teamsubmission) {
-            $this->add_table_row_tuple($t, get_string('numberofteams', 'assign'),
+            $this->add_table_row_tuple($t, $img .  get_string('numberofteams', 'assign'),
                                        $summary->participantcount);
         } else {
-            $this->add_table_row_tuple($t, get_string('numberofparticipants', 'assign'),
+            $this->add_table_row_tuple($t, $img .  get_string('numberofparticipants', 'assign'),
                                        $summary->participantcount);
         }
 
         // Drafts count and dont show drafts count when using offline assignment.
+	$img = $this->output->pix_icon('i/info', '', '', array('class'=>'icon'));	// RT
         if ($summary->submissiondraftsenabled && $summary->submissionsenabled) {
-            $this->add_table_row_tuple($t, get_string('numberofdraftsubmissions', 'assign'),
+            $this->add_table_row_tuple($t, $img .  get_string('numberofdraftsubmissions', 'assign'),
                                        $summary->submissiondraftscount);
         }
 
         // Submitted for grading.
+	$img = $this->output->pix_icon('i/info', '', '', array('class'=>'icon'));	// RT
         if ($summary->submissionsenabled) {
-            $this->add_table_row_tuple($t, get_string('numberofsubmittedassignments', 'assign'),
+            $this->add_table_row_tuple($t, $img .  get_string('numberofsubmittedassignments', 'assign'),
                                        $summary->submissionssubmittedcount);
             if (!$summary->teamsubmission) {
-                $this->add_table_row_tuple($t, get_string('numberofsubmissionsneedgrading', 'assign'),
+                $this->add_table_row_tuple($t, $img .  get_string('numberofsubmissionsneedgrading', 'assign'),
                                            $summary->submissionsneedgradingcount);
             }
         }
@@ -292,19 +295,22 @@ class mod_assign_renderer extends plugin_renderer_base {
         $time = time();
         if ($summary->duedate) {
             // Due date.
+            $img = $this->output->pix_icon('i/calendar', '', '', array('class'=>'icon'));	// RT
             $duedate = $summary->duedate;
-            $this->add_table_row_tuple($t, get_string('duedate', 'assign'),
+            $this->add_table_row_tuple($t, $img . get_string('duedate', 'assign'),
                                        userdate($duedate));
 
             // Time remaining.
             $due = '';
+            $img = $this->output->pix_icon('i/scheduled', '', '', array('class'=>'icon'));	// RT
             if ($duedate - $time <= 0) {
                 $due = get_string('assignmentisdue', 'assign');
             } else {
                 $due = format_time($duedate - $time);
             }
-            $this->add_table_row_tuple($t, get_string('timeremaining', 'assign'), $due);
+            $this->add_table_row_tuple($t, $img . get_string('timeremaining', 'assign'), $due);
 
+            $img = $this->output->pix_icon('i/info', '', '', array('class'=>'icon'));	// RT
             if ($duedate < $time) {
                 $cutoffdate = $summary->cutoffdate;
                 if ($cutoffdate) {
@@ -313,7 +319,7 @@ class mod_assign_renderer extends plugin_renderer_base {
                     } else {
                         $late = get_string('nomoresubmissionsaccepted', 'assign');
                     }
-                    $this->add_table_row_tuple($t, get_string('latesubmissions', 'assign'), $late);
+                    $this->add_table_row_tuple($t, $img . get_string('latesubmissions', 'assign'), $late);
                 }
             }
 
@@ -476,7 +482,8 @@ class mod_assign_renderer extends plugin_renderer_base {
         }
 
         $row = new html_table_row();
-        $cell1 = new html_table_cell(get_string('submissionstatus', 'assign'));
+	$img = $this->output->pix_icon('i/info', '', '', array('class'=>'icon'));	// RT
+        $cell1 = new html_table_cell($img .get_string('submissionstatus', 'assign'));
         if (!$status->teamsubmissionenabled) {
             if ($status->submission) {
                 $statusstr = get_string('submissionstatus_' . $status->submission->status, 'assign');
@@ -546,7 +553,8 @@ class mod_assign_renderer extends plugin_renderer_base {
 
         // Grading status.
         $row = new html_table_row();
-        $cell1 = new html_table_cell(get_string('gradingstatus', 'assign'));
+	$img = $this->output->pix_icon('i/info', '', '', array('class'=>'icon'));	// RT
+        $cell1 = new html_table_cell($img . get_string('gradingstatus', 'assign'));
 
         if ($status->graded) {
             $cell2 = new html_table_cell(get_string('graded', 'assign'));
@@ -562,7 +570,8 @@ class mod_assign_renderer extends plugin_renderer_base {
         if ($duedate > 0) {
             // Due date.
             $row = new html_table_row();
-            $cell1 = new html_table_cell(get_string('duedate', 'assign'));
+            $img = $this->output->pix_icon('i/calendar', '', '', array('class'=>'icon'));	// RT
+            $cell1 = new html_table_cell($img . get_string('duedate', 'assign'));
             $cell2 = new html_table_cell(userdate($duedate));
             $row->cells = array($cell1, $cell2);
             $t->data[] = $row;
@@ -571,7 +580,8 @@ class mod_assign_renderer extends plugin_renderer_base {
                 if ($status->cutoffdate) {
                     // Cut off date.
                     $row = new html_table_row();
-                    $cell1 = new html_table_cell(get_string('cutoffdate', 'assign'));
+                    $img = $this->output->pix_icon('time_overdue', '', 'mod_assign', array('class'=>'icon'));	// RT
+                    $cell1 = new html_table_cell($img . get_string('cutoffdate', 'assign'));
                     $cell2 = new html_table_cell(userdate($status->cutoffdate));
                     $row->cells = array($cell1, $cell2);
                     $t->data[] = $row;
@@ -581,7 +591,8 @@ class mod_assign_renderer extends plugin_renderer_base {
             if ($status->extensionduedate) {
                 // Extension date.
                 $row = new html_table_row();
-                $cell1 = new html_table_cell(get_string('extensionduedate', 'assign'));
+		$img = $this->output->pix_icon('time_add', '', 'mod_assign', array('class'=>'icon'));	// RT
+                $cell1 = new html_table_cell($img . get_string('extensionduedate', 'assign'));
                 $cell2 = new html_table_cell(userdate($status->extensionduedate));
                 $row->cells = array($cell1, $cell2);
                 $t->data[] = $row;
@@ -590,7 +601,8 @@ class mod_assign_renderer extends plugin_renderer_base {
 
             // Time remaining.
             $row = new html_table_row();
-            $cell1 = new html_table_cell(get_string('timeremaining', 'assign'));
+            $img = $this->output->pix_icon('i/calendar', '', 'mod_assign', array('class'=>'icon'));	// RT
+            $cell1 = new html_table_cell($img . get_string('timeremaining', 'assign'));
             if ($duedate - $time <= 0) {
                 if (!$status->submission ||
                         $status->submission->status != ASSIGN_SUBMISSION_STATUS_SUBMITTED) {
@@ -651,7 +663,8 @@ class mod_assign_renderer extends plugin_renderer_base {
         $submission = $status->teamsubmission ? $status->teamsubmission : $status->submission;
         if ($submission) {
             $row = new html_table_row();
-            $cell1 = new html_table_cell(get_string('timemodified', 'assign'));
+            $img = $this->output->pix_icon('time_submit', '', 'mod_assign', array('class'=>'icon'));	// RT
+            $cell1 = new html_table_cell($img . get_string('timemodified', 'assign'));
             $cell2 = new html_table_cell(userdate($submission->timemodified));
             $row->cells = array($cell1, $cell2);
             $t->data[] = $row;
@@ -691,7 +704,7 @@ class mod_assign_renderer extends plugin_renderer_base {
                     $o .= $this->output->single_button(new moodle_url('/mod/assign/view.php', $urlparams),
                                                        get_string('addsubmission', 'assign'), 'get');
                     $o .= $this->output->box_start('boxaligncenter submithelp');
-                    $o .= get_string('editsubmission_help', 'assign');
+                    $o .= get_string('addsubmission_help', 'assign'); // RT
                     $o .= $this->output->box_end();
                     $o .= $this->output->box_end();
                 } else if ($submission->status == ASSIGN_SUBMISSION_STATUS_REOPENED) {
