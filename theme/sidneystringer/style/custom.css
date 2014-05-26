@@ -123,6 +123,78 @@ font-size: 14px;
 border: 1px solid rgb(48, 127, 120);
 }
 
+/* Grading status colours */
+td.submissionstatus,
+div.submissionstatus,
+a:link.submissionstatus {
+    background-color: transparent;
+}
+
+td.submissionstatusdraft,
+div.submissionstatusdraft,
+a:link.submissionstatusdraft {
+    color: black;
+    background-color: transparent;
+    border: 3px solid #F7BB5C;
+    padding: 3px;
+}
+
+td.submissionstatussubmitted,
+div.submissionstatussubmitted,
+a:link.submissionstatussubmitted {
+    color: black;
+    background-color: transparent;
+    border: 3px solid #5CD85C;
+	padding: 3px;
+}
+
+
+td.submissionlocked,
+div.submissionlocked {
+    color: black;
+    background-color: transparent;
+    border: 3px solid #F7BB5C;
+    padding: 3px;
+}
+
+td.submissionreopened,
+div.submissionreopened {
+    color: black;
+    background-color: transparent;
+    border: 3px solid #F7BB5C;
+    padding: 3px;
+}
+
+td.submissiongraded,
+div.submissiongraded {
+    color: black;
+    background-color: transparent;
+    border: 3px solid #5CD85C;
+	padding: 3px;
+}
+
+td.submissionnotgraded,
+div.submissionnotgraded {
+    color: black;
+    background-color: transparent;
+}
+
+td.latesubmission,
+a:link.latesubmission,
+div.latesubmission {
+    color: black;
+    background-color: transparent;
+    border: 3px solid #FF5C5C;
+	padding: 3px;
+}
+
+td.earlysubmission,
+div.earlysubmission {
+    color: black;
+    background-color: transparent;
+    border: 3px solid #5CD85C;
+	padding: 3px;
+}
 
 
 /* Custom CSS Settings
