@@ -97,7 +97,7 @@ class mod_assign_mod_form extends moodleform_mod {
                 if (empty($config->duedate_enabled)) {
                     $mform->setDefault('duedate', 0);
                 } else {
-                    $mform->setDefault('duedate', usergetmidnight(time()) $config->duedate);
+                    $mform->setDefault('duedate', usergetmidnight(time()) + $config->duedate);
                 }
             } else {
                 $mform->setDefault('duedate', 0);
