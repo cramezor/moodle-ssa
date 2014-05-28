@@ -580,7 +580,7 @@ class mod_assign_renderer extends plugin_renderer_base {
                 if ($status->cutoffdate) {
                     // Cut off date.
                     $row = new html_table_row();
-                    $img = $this->output->pix_icon('time_overdue', '', 'mod_assign', array('class'=>'icon'));	// RT
+                    $img = $this->output->pix_icon('i/scheduled', '', '', array('class'=>'icon'));
                     $cell1 = new html_table_cell($img . get_string('cutoffdate', 'assign'));
                     $cell2 = new html_table_cell(userdate($status->cutoffdate));
                     $row->cells = array($cell1, $cell2);
@@ -591,7 +591,7 @@ class mod_assign_renderer extends plugin_renderer_base {
             if ($status->extensionduedate) {
                 // Extension date.
                 $row = new html_table_row();
-		$img = $this->output->pix_icon('time_add', '', 'mod_assign', array('class'=>'icon'));	// RT
+                $img = $this->output->pix_icon('i/scheduled', '', '', array('class'=>'icon'));
                 $cell1 = new html_table_cell($img . get_string('extensionduedate', 'assign'));
                 $cell2 = new html_table_cell(userdate($status->extensionduedate));
                 $row->cells = array($cell1, $cell2);
@@ -601,7 +601,7 @@ class mod_assign_renderer extends plugin_renderer_base {
 
             // Time remaining.
             $row = new html_table_row();
-            $img = $this->output->pix_icon('i/calendar', '', 'mod_assign', array('class'=>'icon'));	// RT
+            $img = $this->output->pix_icon('i/scheduled', '', '', array('class'=>'icon'));
             $cell1 = new html_table_cell($img . get_string('timeremaining', 'assign'));
             if ($duedate - $time <= 0) {
                 if (!$status->submission ||
@@ -663,7 +663,7 @@ class mod_assign_renderer extends plugin_renderer_base {
         $submission = $status->teamsubmission ? $status->teamsubmission : $status->submission;
         if ($submission) {
             $row = new html_table_row();
-            $img = $this->output->pix_icon('time_submit', '', 'mod_assign', array('class'=>'icon'));	// RT
+            $img = $this->output->pix_icon('i/scheduled', '', '', array('class'=>'icon'));
             $cell1 = new html_table_cell($img . get_string('timemodified', 'assign'));
             $cell2 = new html_table_cell(userdate($submission->timemodified));
             $row->cells = array($cell1, $cell2);
