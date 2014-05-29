@@ -32,21 +32,20 @@ class block_my_target extends block_base {
 	public function init() {
 		$this->title = get_string('my_target', 'block_my_target');
 	}
-	
+
 	public function get_content() {
 		global $DB, $USER, $PAGE;
- 
+
 		$this->content         =  new stdClass;
-		
+
 		// Get the current course id
 		$context = $PAGE->context;
 		$coursecontext = $context->get_course_context();
 		$courseid = $coursecontext->instanceid;
-		
-			
+
 		// Get target grade_item
 		$grade_item = grade_item::fetch(array('courseid'=>$courseid,'itemname'=>'Target'));
-		
+
 		// Check if the user is a teacher
 		if (has_capability('block/my_target:addinstance', $this->context)) {
 			// Check if  a manual grade item has been created in this course
@@ -54,31 +53,31 @@ class block_my_target extends block_base {
 				$itemUrl = html_writer::link(new moodle_url('/grade/edit/tree/item.php', array('courseid'=>$courseid)), 'here');
 				$this->content->text = get_string('no_target', 'block_my_target', $itemUrl);
 				return $this->content;
-			} else {           
+			} else {
 				$url = html_writer::link(new moodle_url('/grade/report/grader/index.php', array('id'=>$courseid)), 'grades');
 				$this->content->text = get_string('instructions', 'block_my_target', $url);
 				return $this->content;
 			}
-        }
+		} else if (!$grade_item) { // Not a teacher and no grade item of 'Target' set
+			return false;
+		}
 
 		// Get the stored grade
 		$params = array('userid' => $USER->id, 'itemid' => $grade_item->id);
-		$grade = $DB->get_record('grade_grades', $params);	
-		
-		// Check if  a target grade has been set
-		if(!$grade) {
-			return false;
-		}
-		
+		$grade = $DB->get_record('grade_grades', $params);
+
+                // Check if  a target grade has been set
+                if(!$grade) {
+                        return false;
+                }
+
 		// Format the target grade
 		$targetgrade = grade_format_gradevalue($grade->finalgrade, $grade_item, true);
-		
 
-		
 		// Return the content
 		$this->content->text='<span class="target">'.$targetgrade.'</span>';
 		return $this->content;
-		
+
 	}
 
 	public function instance_allow_multiple() {
