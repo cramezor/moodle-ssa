@@ -88,6 +88,8 @@ input.form-submit:active,input#id_submitbutton:active,input#id_submitbutton2:act
 }
 
 /*Grading status colours */
+
+/* Grading status colours */
 td.submissionstatus,
 div.submissionstatus,
 a:link.submissionstatus {
@@ -97,45 +99,30 @@ a:link.submissionstatus {
 td.submissionstatusdraft,
 div.submissionstatusdraft,
 a:link.submissionstatusdraft {
-    color: black;
     background-color: transparent;
-    border: 3px solid #F7BB5C;
-    padding: 3px;
 }
 
 td.submissionstatussubmitted,
 div.submissionstatussubmitted,
 a:link.submissionstatussubmitted {
-    color: black;
     background-color: transparent;
-    border: 3px solid #5CD85C;
-	padding: 3px;
 }
 
 
 td.submissionlocked,
 div.submissionlocked {
-    color: black;
     background-color: transparent;
-    border: 3px solid #F7BB5C;
-    padding: 3px;
 }
 
 td.submissionreopened,
 div.submissionreopened {
-    color: black;
-    font-weight:bold;
     background-color: transparent;
-    border: 3px solid #F7BB5C;
-    padding: 3px;
+    font-weight:bold;
 }
 
 td.submissiongraded,
 div.submissiongraded {
-    color: black;
     background-color: transparent;
-    border: 3px solid #5CD85C;
-	padding: 3px;
 }
 
 td.submissionnotgraded,
@@ -147,18 +134,18 @@ div.submissionnotgraded {
 td.latesubmission,
 a:link.latesubmission,
 div.latesubmission {
-    color: black;
+    color: #FF5C5C;
     background-color: transparent;
-    border: 3px solid #FF5C5C;
-	padding: 3px;
 }
 
 td.earlysubmission,
 div.earlysubmission {
-    color: black;
     background-color: transparent;
-    border: 3px solid #5CD85C;
-    padding: 3px;
+}
+
+/* Assignment tweaks */
+.usersummary {
+    background:transparent;
 }
 
 /* Custom CSS Settings
