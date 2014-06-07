@@ -6675,8 +6675,8 @@ class assign {
         }
 
         // Set the status of the old attempt to previous
-        $submission->status = ASSIGN_SUBMISSION_STATUS_PREVIOUS;
-	$this->update_submission($submission, $userid, false, $this->get_instance()->teamsubmission);
+        $oldsubmission->status = ASSIGN_SUBMISSION_STATUS_PREVIOUS;
+        $this->update_submission($oldsubmission, $userid, false, $this->get_instance()->teamsubmission);
 
         // Create the new submission record for the group/user.
         if ($this->get_instance()->teamsubmission) {
