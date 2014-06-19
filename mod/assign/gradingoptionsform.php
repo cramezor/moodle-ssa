@@ -45,6 +45,7 @@ class mod_assign_grading_options_form extends moodleform {
         $dirtyclass = array('class'=>'ignoredirty');
 
         $mform->addElement('header', 'general', get_string('gradingoptions', 'assign'));
+        $mform->setExpanded('general', false);
         // Visible elements.
         $options = array(-1=>get_string('all'), '5'=>5, 10=>'10', 20=>'20', 50=>'50'/*, 100=>'100'*/);	// RT Limit to 50 only
         $mform->addElement('select', 'perpage', get_string('assignmentsperpage', 'assign'), $options, $dirtyclass);
