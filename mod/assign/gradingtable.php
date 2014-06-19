@@ -389,11 +389,13 @@ class assign_grading_table extends table_sql implements renderable {
         }*/
 
         // Exclude 'Final grade' column in downloaded grading worksheets.
-        if (!$this->is_downloading()) {
+        // GB - Don't show final grade column
+	/*
+	if (!$this->is_downloading()) {
             // Final grade.
             $columns[] = 'finalgrade';
             $headers[] = get_string('finalgrade', 'grades');
-        }
+        }*/
 
         // Load the grading info for all users.
         $this->gradinginfo = grade_get_grades($this->assignment->get_course()->id,
@@ -935,32 +937,6 @@ class assign_grading_table extends table_sql implements renderable {
 
 		$edit = $this->col_userid($row);
 
-		$feedback = '';'<div class="quickcomment">' . get_string('quickcomment', 'assign') . '</div>';
-
-		foreach ($this->assignment->get_feedback_plugins() as $plugin)
-		{
-            if ($plugin->is_visible() && $plugin->is_enabled() && $plugin->has_user_summary())
-			{
-                $grade = null;
-
-                if ($row->gradeid) {
-                    $grade = new stdClass();
-                    $grade->id = $row->gradeid;
-                    $grade->timecreated = $row->firstmarked;
-                    $grade->timemodified = $row->timemarked;
-                    $grade->assignment = $this->assignment->get_instance()->id;
-                    $grade->userid = $row->userid;
-                    $grade->grade = $row->grade;
-                    $grade->mailed = $row->mailed;
-                    $grade->attemptnumber = $row->attemptnumber;
-                }
-                if ($this->quickgrading && $plugin->supports_quickgrading()) {
-					$feedback .= '<div class="quickcomment">' . get_string('quickcomment', 'assign') . '</div>';
-                    $feedback .= $plugin->get_quickgrading_html($row->userid, $grade);
-                }
-            }
-        }
-
         // GB - Show grade modified date
         $grademodified = '';
 
@@ -972,7 +948,7 @@ class assign_grading_table extends table_sql implements renderable {
             $grademodified = userdate($row->timemarked);
         }
 
-        return $grade1 . $edit . $gradestr . $feedback . $grademodified;
+        return $grade1 . $edit . $gradestr . $grademodified;
     }
 
     /**
@@ -1394,7 +1370,6 @@ class assign_grading_table extends table_sql implements renderable {
      */
     public function col_feedbacks(stdClass $row) {
 		$o = '';
-
 	    $plugins = array_reverse($this->assignment->get_feedback_plugins());
 	    foreach ($plugins as $plugin)
 		{
@@ -1414,12 +1389,15 @@ class assign_grading_table extends table_sql implements renderable {
                     $grade->attemptnumber = $row->attemptnumber;
                 }
 
-				if ($grade) {
+				if ($this->quickgrading && $plugin->supports_quickgrading()) {
+					$o .= '<div class="quickcomment">' . get_string('quickcomment', 'assign') . '</div>';
+                    $o .= $plugin->get_quickgrading_html($row->userid, $grade);
+                }
+				else if ($grade) {
                      $o .= $this->format_plugin_summary_with_link($plugin,
                                                                   $grade,
                                                                   'grading',
                                                                   array());
-					$o .= '<hr class="hrbreak" />';
                 }
             }
         }
@@ -1609,4 +1587,5 @@ class assign_grading_table extends table_sql implements renderable {
         return '';
     }
 }
+
 
