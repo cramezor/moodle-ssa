@@ -926,7 +926,9 @@ class assign_grading_table extends table_sql implements renderable {
                                'rownum'=>$this->rownum,
                                'action'=>'grade');
             $url = new moodle_url('/mod/assign/view.php', $urlparams);
-            $link = $this->output->action_link($url, $icon . get_string('gradethisuser', 'assign')); // RT- display text to make this icon obvious
+            $link = new action_link($url, $icon . get_string('gradethisuser', 'assign')); // GB - Show as a button
+            $link->add_class('btn');
+            $link = $this->output->render($link);
             $grade1 = $link . $separator ; // RT - store this in a separate variable so that we can control display order
         }
 
@@ -948,7 +950,7 @@ class assign_grading_table extends table_sql implements renderable {
             $grademodified = userdate($row->timemarked);
         }
 
-        return $grade1 . $edit . $gradestr . $grademodified;
+        return $grade1 . $gradestr . $edit . $grademodified;
     }
 
     /**

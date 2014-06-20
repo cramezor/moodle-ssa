@@ -333,7 +333,7 @@ class mod_assign_renderer extends plugin_renderer_base {
         $o .= $this->output->container_start('submissionlinks');
         $urlparams = array('id' => $summary->coursemoduleid, 'action'=>'grading');
         $url = new moodle_url('/mod/assign/view.php', $urlparams);
-        $o .= $this->output->action_link($url, get_string('viewgrading', 'assign'));
+        $o .= $this->output->single_button($url, get_string('viewgrading', 'assign'));
         $o .= $this->output->container_end();
 
         // Close the container and insert a spacer.
