@@ -3907,7 +3907,7 @@ function file_pluginfile($relativepath, $forcedownload, $preview = null) {
             //ok
         } else if ($entry->publishstate === 'draft') {
             require_login();
-            if ($USER->id != $entry->userid) {
+            if ($USER->id != $entry->userid && !has_capability('moodle/blog:viewdrafts', $context)) {
                 send_file_not_found();
             }
         }
